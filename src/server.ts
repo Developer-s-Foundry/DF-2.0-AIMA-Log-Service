@@ -6,7 +6,7 @@ import { dbInitialization } from "./common/config/database";
 (async () => {
   const app: express.Application = express();
   expressConfig(app);
-  dbInitialization();
+  await dbInitialization();
 
   app.listen(APP_CONFIGS.SERVER_PORT, () => {
     console.log(`Server running on port ${APP_CONFIGS.SERVER_PORT}`);
