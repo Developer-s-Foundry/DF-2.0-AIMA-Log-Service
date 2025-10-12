@@ -1,15 +1,17 @@
 import { DataSource } from "typeorm";
 import { APP_CONFIGS } from ".";
+import path from 'path'
 
 
-
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
     type: 'mysql',
     host: APP_CONFIGS.DATABASE_HOST,
     port: parseInt(APP_CONFIGS.DATABASE_PORT),
     username: APP_CONFIGS.DATABASE_USERNAME,
     password: APP_CONFIGS.DATABASE_PASSWORD,
     database: APP_CONFIGS.DATABASE_NAME,
+    entities: [path.join(__dirname, '../../models/entities/*.ts')],
+    migrations: [path.join(__dirname, '../../migrations/database/*.ts')]
 })
 
 export const dbInitialization = async () => {
