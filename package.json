@@ -5,12 +5,12 @@
   "main": "server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "typeorm": " ts-node node_modules/typeorm/cli",
     "typeorm:ds": "npm run typeorm -- -d ./src/common/config/database.ts",
     "typeorm:migration": "npm run typeorm:ds -- migration:generate ",
     "migration:run": "npm run typeorm:ds -- migration:run",
+    "build": "npm run migration:run && npm install && tsc",
     "dev": "ts-node src/server.ts"
   },
   "keywords": [],
