@@ -1,26 +1,37 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
+import { LogLevel, serviceSource } from '../../common/types/variable_types';
+import { Entity, Column, ManyToOne,  } from "typeorm";
+import { BaseModel } from './base_model';
+import { Device } from './device';
+import { Incident } from './incident';
+
+
 
 
 @Entity()
-export class Log {
-    @PrimaryGeneratedColumn()
-    id!: string
+export class Log extends BaseModel{
 
     @Column()
     timestamp!: Date
 
-    @Column()
-    service_name!: string
+    @Column({type: 'enum', 
+        enum: LogLevel })
+    status!: LogLevel
 
-    @Column()
-    message!: Text
+    @Column('text')
+    message!: string
     
-    @Column()
-    context!: JSON
+    @Column('json')
+    context!: Record<string,  any>
+
+    @Column({type: 'enum', enum: serviceSource })
+    service_source!: serviceSource
 
     @Column()
-    host!: string
+    service_source_id!: string
 
-    @CreateDateColumn()
-    created_at!: Date
+    @ManyToOne(() => Device, (device) => device.log)
+    device!: Device
+
+    @ManyToOne(() => Incident, (incident) => incident.log)
+    incident!: Incident
 }
