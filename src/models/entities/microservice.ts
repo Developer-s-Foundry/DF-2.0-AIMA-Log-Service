@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { ServiceStatus } from "../../common/config/types";
+import { ServiceStatus } from "../../common/types/variable_types";
 import { BaseModel } from "./base_model";
 
 

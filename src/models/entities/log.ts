@@ -1,4 +1,4 @@
-import { LogLevel, serviceSource } from './../../common/config/types';
+import { LogLevel, serviceSource } from '../../common/types/variable_types';
 import { Entity, Column, ManyToOne,  } from "typeorm";
 import { BaseModel } from './base_model';
 import { Device } from './device';

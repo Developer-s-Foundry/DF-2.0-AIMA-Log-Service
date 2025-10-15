@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from "typeorm"
 import { BaseModel } from "./base_model"
-import { ServiceStatus, SeverityLevel } from "../../common/config/types"
+import { ServiceStatus, SeverityLevel } from "../../common/types/variable_types"
 import { Log } from "./log"
 
 

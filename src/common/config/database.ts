@@ -4,13 +4,13 @@ import path from 'path'
 
 
 export const AppDataSource = new DataSource({
-    type: 'mysql',
+    type: 'postgres',
     host: APP_CONFIGS.DATABASE_HOST,
     port: parseInt(APP_CONFIGS.DATABASE_PORT),
     username: APP_CONFIGS.DATABASE_USERNAME,
     password: APP_CONFIGS.DATABASE_PASSWORD,
     database: APP_CONFIGS.DATABASE_NAME,
-    entities: [path.join(__dirname, '../../models/entities/*.ts')],
+    entities: [path.join(__dirname, '../../models/entities/*.{js,ts}')],
     migrations: [path.join(__dirname, '../../migrations/database/*.ts')]
 })
 

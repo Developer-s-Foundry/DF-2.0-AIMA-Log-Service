@@ -1,6 +1,6 @@
 import { Entity, Column} from "typeorm";
 
-import { ServiceStatus } from "../../common/config/types";
+import { ServiceStatus } from "../../common/types/variable_types";
 import { BaseModel } from "./base_model";
 
 @Entity('clent-service')
