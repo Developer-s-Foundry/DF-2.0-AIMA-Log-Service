@@ -2,8 +2,9 @@
   "name": "df-aimas-log-service",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "typeorm": " ts-node node_modules/typeorm/cli",
     "typeorm:ds": "npm run typeorm -- -d ./src/common/config/database.ts",
@@ -11,6 +12,7 @@
     "migration:run": "npm run typeorm:ds -- migration:run",
     "dev": "ts-node src/server.ts",
     "build": " npm install && npm run migration:run && tsc"
+   
   },
   "keywords": [],
   "author": "",
@@ -24,6 +26,8 @@
     "mysql": "^2.18.1",
     "ts-node": "^10.9.2",
     "typeorm": "^0.3.27",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+      "pg": "^8.16.3"
+      
   }
 }
