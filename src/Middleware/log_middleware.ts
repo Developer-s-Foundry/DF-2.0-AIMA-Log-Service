@@ -5,7 +5,7 @@ import { APP_CONFIGS } from "../common/config";
 import { parseTimestamp } from "../common/utils/helper_func";
 
 
-export const logMiddleware = (req: Request, res: Response, next: NextFunction) {
+export const logMiddleware = (req: Request, res: Response, next: NextFunction) => {
   // also verify that the user is authenticated
   if (!req.headers['X-logservice-timestamp'] || !req.headers['X-logservice-signature'])  {
     throw new LogError('credentials not found', 400)
