@@ -11,7 +11,8 @@ export const AppDataSource = new DataSource({
     password: APP_CONFIGS.DATABASE_PASSWORD,
     database: APP_CONFIGS.DATABASE_NAME,
     entities: [path.join(__dirname, '../../models/entities/*.{js,ts}')],
-    migrations: [path.join(__dirname, '../../migrations/database/*.ts')]
+    migrations: [path.join(__dirname, '../../migrations/database/*.ts')],
+    ssl: true
 })
 
 export const dbInitialization = async () => {
