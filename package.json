@@ -12,7 +12,6 @@
     "migration:run": "npm run typeorm:ds -- migration:run",
     "dev": "ts-node src/server.ts",
     "build": " npm install && npm run migration:run && tsc"
-   
   },
   "keywords": [],
   "author": "",
@@ -20,14 +19,17 @@
   "type": "commonjs",
   "dependencies": {
     "@types/express": "^5.0.3",
+    "amqplib": "^0.10.9",
     "bullmq": "^5.61.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mysql": "^2.18.1",
+    "pg": "^8.16.3",
     "ts-node": "^10.9.2",
     "typeorm": "^0.3.27",
-    "typescript": "^5.9.3",
-      "pg": "^8.16.3"
-      
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.7"
   }
 }
