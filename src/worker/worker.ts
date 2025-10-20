@@ -9,8 +9,8 @@ const connection = new IORedis({ maxRetriesPerRequest: null });
 const logService = new LogService()
 
 
-export const workerSystem = () => {
-
+export const workerSystem = async () => {
+  console.log('worker started')
   const worker = new Worker(
   APP_CONFIGS.QUEUE_NAME,
   async job => {

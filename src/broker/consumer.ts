@@ -5,8 +5,9 @@ import { logQueue } from "../common/config/bullmq";
 // consume published msg from broker
 
 
-export const consumeMsg =  () => {
+export const consumeMsg =  async () => {
     const assertQueueOptions = {durable: true}
+    console.log('sending message to queue')
 
     return createChannel()
     .then((channel) => {
