@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
+ 
 enum ENVIRONMENT_VARIABLES {
   SERVER_PORT = "SERVER_PORT",
   DATABASE_NAME = "DATABASE_NAME",
