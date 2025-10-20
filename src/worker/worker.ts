@@ -6,7 +6,10 @@ import { LogService } from '../service/log_service';
 import { publishMsg } from '../broker/producer';
 
 const connection = new IORedis(
-  {maxRetriesPerRequest: null, host: , port: , });
+  {maxRetriesPerRequest: null, 
+    host: APP_CONFIGS.REDIS_HOST , 
+    port: parseInt(APP_CONFIGS.REDIS_PORT), 
+    password: APP_CONFIGS.REDIS_PASSWORD});
 const logService = new LogService()
 
 
