@@ -5,7 +5,8 @@ import { APP_CONFIGS } from '../common/config';
 import { LogService } from '../service/log_service';
 import { publishMsg } from '../broker/producer';
 
-const connection = new IORedis({ maxRetriesPerRequest: null });
+const connection = new IORedis(
+  {maxRetriesPerRequest: null, host: , port: , });
 const logService = new LogService()
 
 
