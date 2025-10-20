@@ -11,8 +11,9 @@
     "typeorm:migration": "npm run typeorm:ds -- migration:generate ",
     "migration:run": "npm run typeorm:ds -- migration:run",
     "dev": "ts-node src/server.ts",
-    "build": " npm install && npm run migration:run && tsc",
-    "rabbit-server": "ts-node ./src/broker/consumer.ts"
+    "build": "tsc",
+    "rabbit-server": "ts-node ./src/broker/consumer_entry.ts",
+    "start:worker": "ts-node ./src/worker/worker_entry.ts"
   },
   "keywords": [],
   "author": "",
