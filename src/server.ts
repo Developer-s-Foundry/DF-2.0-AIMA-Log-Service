@@ -12,7 +12,7 @@ import { consumeMsg } from "./broker/consumer";
   expressConfig(app);
   await dbInitialization();
 
-  app.use(logMiddleware)
+  // app.use(logMiddleware)
 
   app.listen(APP_CONFIGS.SERVER_PORT, async () => {
     console.log(`Server running on port ${APP_CONFIGS.SERVER_PORT}`);
