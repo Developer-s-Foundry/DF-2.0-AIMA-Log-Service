@@ -11,7 +11,8 @@ const connection = new IORedis(
     username: APP_CONFIGS.REDIS_USERNAME,
     port: parseInt(APP_CONFIGS.REDIS_PORT), 
     password: APP_CONFIGS.REDIS_PASSWORD,
-  tls: {rejectUnauthorized: false}});
+    tls: {}
+  });
 const logService = new LogService()
 
 
