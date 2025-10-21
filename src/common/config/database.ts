@@ -10,9 +10,13 @@ export const AppDataSource = new DataSource({
     username: APP_CONFIGS.DATABASE_USERNAME,
     password: APP_CONFIGS.DATABASE_PASSWORD,
     database: APP_CONFIGS.DATABASE_NAME,
-    entities: [path.join(__dirname, '../../models/entities/*.{js,ts}')],
-    migrations: [path.join(__dirname, '../../migrations/database/*.ts')],
-    ssl: true
+     entities: APP_CONFIGS.IS_PRODUCTION
+    ? ["../../models/entities/**/*{.ts,.js}"]
+    : ["src/models/entities/**/*{.ts,.js}"],
+    migrations: APP_CONFIGS.IS_PRODUCTION
+    ? ["../../migrations/**/*{.ts,.js}"]
+    : ["src/migrations/**/*{.ts,.js}"],
+    ssl: true,
 })
 
 export const dbInitialization = async () => {
