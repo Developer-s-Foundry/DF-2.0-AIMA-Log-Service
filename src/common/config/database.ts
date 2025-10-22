@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import { APP_CONFIGS } from ".";
-import path from 'path'
+// import path from 'path'
 
 
 export const AppDataSource = new DataSource({
@@ -16,7 +16,7 @@ export const AppDataSource = new DataSource({
     migrations: APP_CONFIGS.IS_PRODUCTION
     ? ["../../migrations/**/*{.ts,.js}"]
     : ["src/migrations/**/*{.ts,.js}"],
-    ssl: true,
+    //ssl: true,
 })
 
 export const dbInitialization = async () => {
