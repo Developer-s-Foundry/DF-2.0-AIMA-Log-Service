@@ -21,7 +21,7 @@ import { logMiddleware } from "./Middleware/log_middleware";
     );
   });
   
-  app.use(logMiddleware)
+  app.use('/logs', logMiddleware)
 
   RegisterRoutes(app)
 
