@@ -11,7 +11,7 @@ import { Exclude } from 'class-transformer';
 export class Log extends BaseModel{
 
     @Column({ type: 'jsonb', default: () => "'{}'" })
-    metric!:  Record<string, any>
+    metrics!:  Record<string, any>
 
     @Exclude()
     @Column({nullable: false})
@@ -26,33 +26,11 @@ export class Log extends BaseModel{
     @Column({nullable: false})
     value!: number
 
-    @Exclude()
-    @Column()
-    service_id!: string
-
     @Column({nullable: false})
     resource!: string
 
     @Column()
-    type!: string
-
-
-
-    // @Column({type: 'enum', 
-    //     enum: LogLevel })
-    // status!: LogLevel
-
-    // @Column('text')
-    // message!: string
-    
-    // @Column('json')
-    // context!: Record<string,  any>
-
-    // @Column({type: 'enum', enum: serviceSource })
-    // service_source!: serviceSource
-
-    // @Column()
-    // service_source_id!: string
+    service_type!: string
 
     @ManyToOne(() => Incident, (incident) => incident.log)
     incident!: Incident

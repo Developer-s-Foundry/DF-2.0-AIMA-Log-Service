@@ -1,0 +1,30 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["./src/**/*controller.ts"],
+  "spec": {
+    "tags":  [
+      {
+        "name": "Logs",
+        "description": "search for logs according to defined query parameters",
+        "externalDocs": {
+          "description": "Find out more about logs Query parameters",
+          "url": "https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Log-Service"
+        }
+      }
+    ],
+    "securityDefinitions": {
+      "api_key": {
+            "type": "apiKey",
+            "name": "access_token",
+            "in": "header"
+        }
+    },
+    "outputDirectory": "./src/swagger",
+    "specVersion": 3
+  },
+  "routes": {
+    "routesDir": "./src/swagger",
+    "authenticationModule": "./src/Middleware/log_middleware.ts"
+  }
+}

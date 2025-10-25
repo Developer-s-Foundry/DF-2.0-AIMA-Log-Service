@@ -10,8 +10,8 @@
     "typeorm:ds": "npm run typeorm -- -d ./src/common/config/database.ts",
     "typeorm:migration": "npm run typeorm:ds -- migration:generate ",
     "migration:run": "npm run typeorm:ds -- migration:run",
-    "dev": "ts-node src/server.ts",
-    "build": "tsc",
+    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
+    "build": "tsoa spec-and-routes && tsc",
     "rabbit-server": "ts-node ./src/broker/consumer_entry.ts",
     "start:worker": "ts-node ./src/worker/worker_entry.ts"
   },
@@ -25,15 +25,20 @@
     "bullmq": "^5.61.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "concurrently": "^9.2.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mysql": "^2.18.1",
+    "nodemon": "^3.1.10",
     "pg": "^8.16.3",
+    "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
+    "tsoa": "^6.6.0",
     "typeorm": "^0.3.27",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/amqplib": "^0.10.7"
+    "@types/amqplib": "^0.10.7",
+    "@types/swagger-ui-express": "^4.1.8"
   }
 }
