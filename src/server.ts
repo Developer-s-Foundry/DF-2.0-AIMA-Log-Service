@@ -6,6 +6,7 @@ import { workerSystem } from "./worker/worker";
 import { consumeMsg } from "./broker/consumer";
 import { RegisterRoutes } from './swagger/routes'
 import swaggerUi from "swagger-ui-express";
+import { logMiddleware } from "./Middleware/log_middleware";
 
 
 
@@ -19,6 +20,8 @@ import swaggerUi from "swagger-ui-express";
       swaggerUi.generateHTML(await import("./swagger/swagger.json"))
     );
   });
+  
+  app.use(logMiddleware)
 
   RegisterRoutes(app)
 

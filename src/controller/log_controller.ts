@@ -11,7 +11,6 @@ export class LogController extends Controller {
         this.logRepository =  logRepo;
     }
    
-    @Security('api_key')
     @Get('/search-logs')
     @Tags('Logs')
     public async getLogs(

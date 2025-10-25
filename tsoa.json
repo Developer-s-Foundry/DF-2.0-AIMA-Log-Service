@@ -13,18 +13,10 @@
         }
       }
     ],
-    "securityDefinitions": {
-      "api_key": {
-            "type": "apiKey",
-            "name": "access_token",
-            "in": "header"
-        }
-    },
-    "outputDirectory": "./src/swagger",
+    "outputDirectory": "swagger",
     "specVersion": 3
   },
   "routes": {
-    "routesDir": "./src/swagger",
-    "authenticationModule": "./src/Middleware/log_middleware.ts"
+    "routesDir": "swagger"
   }
 }
