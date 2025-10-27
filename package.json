@@ -13,7 +13,8 @@
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "build": "tsoa spec-and-routes && tsc",
     "rabbit-server": "ts-node ./src/broker/consumer_entry.ts",
-    "start:worker": "ts-node ./src/worker/worker_entry.ts"
+    "start:worker": "ts-node ./src/worker/worker_entry.ts",
+    "prometheus:worker": "ts-node ./src/worker/metrics_worker.ts"
   },
   "keywords": [],
   "author": "",
