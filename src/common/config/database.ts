@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
     migrations: APP_CONFIGS.IS_PRODUCTION
     ? ["../../migrations/**/*{.ts,.js}"]
     : ["src/migrations/**/*{.ts,.js}"],
-    migrationsRun: true,
+    // migrationsRun: true,
     // ssl: true,
 })
 
