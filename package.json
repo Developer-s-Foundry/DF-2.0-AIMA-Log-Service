@@ -10,7 +10,7 @@
     "typeorm:ds": "npm run typeorm -- -d ./src/common/config/database.ts",
     "typeorm:migration": "npm run typeorm:ds -- migration:generate ",
     "migration:run": "npm run typeorm:ds -- migration:run",
-    "migration:run:prod": "node ./node_modules/typeorm/cli.js migration:run -d ./dist/common/config/database.js",
+    "migration:run:prod": "node ./node_modules/typeorm/cli.js migration:run -d ../dist/common/config/database.js",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
     "build": "tsoa spec-and-routes && tsc",
     "rabbit-server": "ts-node ./src/broker/consumer_entry.ts",
