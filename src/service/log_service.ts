@@ -4,13 +4,13 @@ import { instanceToPlain } from 'class-transformer';
 
 
 export class LogService  {
-    private logRepo: typeof logRepo
+    private logRepository: logRepo 
 
     constructor() {
-        this.logRepo = logRepo
+        this.logRepository = new logRepo()
     }
 
     async createLog(logData: logData) {
-        return instanceToPlain(this.logRepo.createLog(logData))
+        return instanceToPlain(this.logRepository.createLog(logData))
     }
 }
