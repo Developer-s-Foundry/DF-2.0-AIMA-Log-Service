@@ -1,24 +1,29 @@
-import { IsObject } from "class-validator"
+import { IsNumber, IsObject, IsString, isString } from "class-validator"
 
 
 export class logData {
-    
-    @IsObject()
-    metric: Record<string, any>;
+    @IsString()
+    metric_name!: string
 
-    app_id: string
-        
-    timestamp: string
+     @IsString()
+    project_id: string
+
     
-    @IsObject()
-    labels: Record<string, any>
-    
+    time_stamp: Date
+
+    @IsNumber()
     value: number
-    
-    service_id: string
 
-    resource: string
-    
-    type: string
-    
+    @IsString()
+    result_type: string
+
+    @IsString()
+    app: string
+
+    @IsString()
+    instance: string
+
+    @IsString()
+    job: string
+
 }

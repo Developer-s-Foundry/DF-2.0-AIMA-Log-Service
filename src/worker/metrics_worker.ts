@@ -1,26 +1,25 @@
 import { createChannel } from "../common/config/rabbitmq";
 import { APP_CONFIGS } from "../common/config";
 
+
 // fetch metrics from prometeus api
 const getMetricsNames = (serverUrl: string): Promise<string[]> => {
     // get the list of available metrics in prometheus
     // let  metricsList: Array<string>;
     const endPoint: string = `http://${serverUrl}/api/v1/label/__name__/values`
    
-          return fetch(endPoint)
-            .then((res) => {
-                if (!res.ok) {
-                     throw new Error(`HTTP error! Status: ${res.status}`);
-                }
-                return res.json()
-            })
-            .then((data) => {
-                console.log(data);
-                return(data.data)
-                
-            }).catch(error => {
-                throw new Error('failed to fetch register metrics ' + error.message)
-            })
+    return fetch(endPoint)
+    .then((res) => {
+        if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json()
+    })
+    .then((data) => {
+        console.log(data);
+        return(data.data)
+        
+    })
 };
 
   // get the metrics according to metric name on the list item
@@ -56,6 +55,9 @@ const processItem = (metricName: string, hostName: string) => {
             // publish to message broker
             createChannel()
             .then((channel) => {
+                if (!channel) {
+                    throw new Error('failed to create a channel')
+                }
                 channel.assertQueue(APP_CONFIGS.QUEUE_NAME_RMQ);
                 for (const el of metricsList) {
                     console.log('worker is in progress')

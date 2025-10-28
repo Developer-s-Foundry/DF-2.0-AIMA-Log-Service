@@ -1,37 +1,41 @@
-import { LogLevel, serviceSource } from '../../common/types/variable_types';
 import { Entity, Column, ManyToOne,  } from "typeorm";
 import { BaseModel } from './base_model';
 import { Incident } from './incident';
 import { Exclude } from 'class-transformer';
-
+import { Project } from "./project";
 
 
 
 @Entity()
 export class Log extends BaseModel{
 
-    @Column({ type: 'jsonb', default: () => "'{}'" })
-    metrics!:  Record<string, any>
-
-    @Exclude()
-    @Column({nullable: false})
-    app_id!: string
+    @Column()
+    metric_name!:  string
 
     @Column()
     timestamp!: Date
 
-    @Column({ type: 'jsonb', default: () => "'{}'" })
-    labels!: Record<string, any>
+    // @Column({ type: 'jsonb', default: () => "'{}'" })
+    // labels!: Record<string, any>
 
     @Column({nullable: false})
     value!: number
 
     @Column({nullable: false})
-    resource!: string
+    result_type!: string
 
     @Column()
-    service_type!: string
+    app!: string
+
+    @Column()
+    instance!: string
+
+    @Column()
+    job!: string
 
     @ManyToOne(() => Incident, (incident) => incident.log)
     incident!: Incident
+
+    @ManyToOne(() => Project, (project) => project.logs)
+    project!: Project
 }

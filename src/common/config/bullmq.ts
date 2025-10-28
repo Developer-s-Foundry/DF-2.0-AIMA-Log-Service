@@ -10,5 +10,5 @@ const redisConnection = new Redis({
     username: APP_CONFIGS.REDIS_USERNAME,
     tls: {}
 });
-
-export const logQueue = new Queue(APP_CONFIGS.QUEUE_NAME, {connection: redisConnection});
+// set up a queue
+export const logDetails = new Queue(APP_CONFIGS.QUEUE_NAME, {connection: redisConnection});

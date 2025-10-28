@@ -3,16 +3,18 @@ import { APP_CONFIGS } from '.';
 
 let connection: amqp.ChannelModel | null = null;
 
+// return connection
 export const getRabbitConnection = () => {
-  if (connection) return Promise.resolve(connection);
+  if (connection) {
+    console.log('connection already exist');
+    return Promise.resolve(connection);
+  };
 
-  return amqp.connect(APP_CONFIGS.RABBITMQ_URL as string)
-  .then((conn) => {
+ return amqp.connect(APP_CONFIGS.RABBITMQ_URL as string)
+ .then((conn) => {
     connection = conn
-    return conn;
-  }).catch((error) => {
-    throw new Error('failed to connect to Rabbit-Server' + error)
-  });
+    return connection;
+  })
 };
 
 export const createChannel = () => {
@@ -21,11 +23,17 @@ export const createChannel = () => {
         if (!conn) {
             throw new Error('failed to connect to rabbitmq')
         }
-        return conn.createChannel()
-    }).then((channel) => {
-        return channel
+        conn.on('close', () => {
+          console.log('connection closed, retrying....')
+          setTimeout(() => {
+            createChannel();
+          }, 5000); 
+        })
+        return conn.createChannel();
     }).catch((error) => {
-        throw new Error('failed to create a channel' + error) 
+        console.log(error.message);
+         setTimeout(() => {
+            createChannel();
+          }, 5000); 
     })
-   
 }
