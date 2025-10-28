@@ -1,10 +1,10 @@
-import { Entity, Column, OneToMany,  } from "typeorm";
+import { Entity, Column, OneToMany  } from "typeorm";
 import { BaseModel } from './base_model';;
 import { Log } from "./log";
 
 
 
-@Entity('project')
+@Entity()
 export class Project extends BaseModel{
 
     @Column({nullable: false})

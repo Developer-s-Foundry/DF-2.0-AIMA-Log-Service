@@ -6,7 +6,7 @@ import { Project } from "./project";
 
 
 
-@Entity('logs')
+@Entity()
 export class Log extends BaseModel{
 
     @Column()
@@ -25,7 +25,7 @@ export class Log extends BaseModel{
     result_type!: string
 
     @Column()
-    app!: string
+    app_name!: string
 
     @Column()
     instance!: string
