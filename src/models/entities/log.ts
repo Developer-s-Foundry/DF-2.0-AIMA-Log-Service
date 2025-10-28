@@ -6,7 +6,7 @@ import { Project } from "./project";
 
 
 
-@Entity()
+@Entity('logs')
 export class Log extends BaseModel{
 
     @Column()
@@ -33,7 +33,7 @@ export class Log extends BaseModel{
     @Column()
     job!: string
 
-    @ManyToOne(() => Incident, (incident) => incident.log)
+    @ManyToOne(() => Incident, (incident) => incident.logs)
     incident!: Incident
 
     @ManyToOne(() => Project, (project) => project.logs)

@@ -1,12 +1,10 @@
-import { Entity, Column, ManyToOne, OneToMany,  } from "typeorm";
-import { BaseModel } from './base_model';
-import { Incident } from './incident';
-import { Exclude } from 'class-transformer';
+import { Entity, Column, OneToMany,  } from "typeorm";
+import { BaseModel } from './base_model';;
 import { Log } from "./log";
 
 
 
-@Entity()
+@Entity('project')
 export class Project extends BaseModel{
 
     @Column({nullable: false})

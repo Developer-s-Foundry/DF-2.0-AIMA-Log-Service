@@ -13,5 +13,5 @@ export class Incident extends BaseModel{
     ocurrence!: number 
 
     @OneToMany(() => Log, (log) => log.incident)
-    log: Log
+    logs: Log[]
 }

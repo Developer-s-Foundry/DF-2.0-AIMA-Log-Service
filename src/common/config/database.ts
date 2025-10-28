@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import { APP_CONFIGS } from ".";
+import { parse } from "dotenv";
 // import path from 'path'
 
 
@@ -10,12 +11,13 @@ export const AppDataSource = new DataSource({
     username: APP_CONFIGS.DATABASE_USERNAME,
     password: APP_CONFIGS.DATABASE_PASSWORD,
     database: APP_CONFIGS.DATABASE_NAME,
-     entities: APP_CONFIGS.IS_PRODUCTION
+     entities: APP_CONFIGS.NODE_ENV === 'prod'
     ? ["../../models/entities/**/*{.ts,.js}"]
     : ["src/models/entities/**/*{.ts,.js}"],
     migrations: APP_CONFIGS.IS_PRODUCTION
     ? ["../../migrations/**/*{.ts,.js}"]
     : ["src/migrations/**/*{.ts,.js}"],
+    migrationsRun: true,
     // ssl: true,
 })
 
