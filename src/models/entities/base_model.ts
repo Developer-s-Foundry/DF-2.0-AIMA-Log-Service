@@ -4,7 +4,7 @@ import { Exclude } from "class-transformer";
 
 
 
-@Entity('basemodel')
+@Entity()
 export class BaseModel {
     @Exclude()
     @PrimaryGeneratedColumn()

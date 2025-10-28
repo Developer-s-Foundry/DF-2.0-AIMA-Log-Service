@@ -4,7 +4,7 @@ import { SeverityLevel } from "../../common/types/variable_types"
 import { Log } from "./log"
 
 
-@Entity('incidence')
+@Entity()
 export class Incident extends BaseModel{
     @Column({type: 'enum', enum: SeverityLevel})
     severity!: SeverityLevel 
