@@ -61,8 +61,11 @@ Follow these steps to set up and run the project locally:
     http://localhost:port/docs
 
 
-👥 Contributors
+---
 
-@ukasquared
+## 👥 Contributors
 
-@iamaamunir
+[@ukasquared](https://github.com/ukasquared)
+
+
+[@iamaamunir](https://github.com/iamaamunir)
