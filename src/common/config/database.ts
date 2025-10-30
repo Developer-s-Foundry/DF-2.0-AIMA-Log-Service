@@ -10,11 +10,12 @@ export const AppDataSource = new DataSource({
     username: APP_CONFIGS.DATABASE_USERNAME,
     password: APP_CONFIGS.DATABASE_PASSWORD,
     database: APP_CONFIGS.DATABASE_NAME,
+    logging: true,
      entities: APP_CONFIGS.NODE_ENV === 'prod'
     ? ["../../models/entities/**/*{.ts,.js}"]
     : ["src/models/entities/**/*{.ts,.js}"],
     migrations: APP_CONFIGS.NODE_ENV === 'prod'
-    ? ["../dist/migrations/**/*{.ts,.js}"]
+    ? ["../../dist/migrations/**/*{.ts,.js}"]
     : ["src/migrations/**/*{.ts,.js}"],
     // migrationsRun: true,
     ssl: true,
