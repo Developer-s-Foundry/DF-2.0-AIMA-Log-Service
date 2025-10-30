@@ -1,21 +1,13 @@
-
 import { Worker } from 'bullmq';
-import IORedis from 'ioredis';
 import { APP_CONFIGS } from '../common/config';
 import { LogService } from '../service/log_service';
 import { publishMsg } from '../broker/producers/producer';
+import { redisConnection } from "../common/config/bullmq";
+import { parseData } from '../common/utils/helper_func';
 
-const connection = new IORedis(
-  {maxRetriesPerRequest: null, 
-    host: APP_CONFIGS.REDIS_HOST , 
-    username: APP_CONFIGS.REDIS_USERNAME,
-    port: parseInt(APP_CONFIGS.REDIS_PORT), 
-    password: APP_CONFIGS.REDIS_PASSWORD,
-    tls: {}
-  });
 
   
-const logService = new LogService()
+const logService = new LogService();
 
 
 export const workerSystem = async () => {
@@ -24,19 +16,29 @@ export const workerSystem = async () => {
   const worker = new Worker(
   APP_CONFIGS.QUEUE_NAME,
     async job => {
+      console.log('i worked ', job.data)
+      if(job.data) {
+        throw new Error('job not found')
+      } 
+      const metricData = job.data;
 
       //convert timestamp to date object
-      if (job.data.timestamp && job.data.value) {
-          job.data.timestamp = new Date(job.data.timestamp);
-          job.data.value = parseInt(job.data.value);
+      if (metricData.timestamp && metricData.value) {
+          metricData.timestamp = new Date(metricData.timestamp);
+          metricData.value = parseInt(metricData.value);
       }
     // persist data into db
-    const logData = logService.createLog(job.data)
+    if (!(parseData(metricData))){
+        throw new Error('metric data not found');
+    }
+    const logData = logService.createLog(metricData);
+    console.log('persisted in database');
 
     // publish to broker
     publishMsg(JSON.stringify(logData))
+    console.log('published succesfully')
   },
-  { connection },
+  { connection: redisConnection },
 );
 
   worker.on('completed', (job) => console.log(`Job ${job.id} completed`));

@@ -27,7 +27,7 @@ import { logMiddleware } from "./Middleware/log_middleware";
 
   app.listen(APP_CONFIGS.SERVER_PORT, async () => {
     console.log(`Server running on port ${APP_CONFIGS.SERVER_PORT}`);
+    await consumeMsg();
     await workerSystem();
-    await consumeMsg()
   });
 })();

@@ -1,14 +1,14 @@
-import { logRepo } from "../repositories/log_repo";
-import { Controller, Get, Query, Route, Security, Tags } from "tsoa";
+import { LogRepo } from "../repositories/log_repo";
+import { Controller, Get, Query, Route, Tags } from "tsoa";
 
 
 @Route('logs')
 export class LogController extends Controller {
-    private logRepository: typeof logRepo;
+    private logRepository: typeof LogRepo;
 
     constructor() {
         super();
-        this.logRepository =  logRepo;
+        this.logRepository =  LogRepo;
     }
    
     @Get('/search-logs')
