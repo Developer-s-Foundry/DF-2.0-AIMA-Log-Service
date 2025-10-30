@@ -1,8 +1,7 @@
 import { Redis } from 'ioredis';
-import { Queue } from "bullmq";
 import { APP_CONFIGS } from ".";
 
-const redisConnection = new Redis({
+export const redisConnection = new Redis({
     maxRetriesPerRequest: null,
     host: APP_CONFIGS.REDIS_HOST , 
     port: parseInt(APP_CONFIGS.REDIS_PORT), 
@@ -10,5 +9,7 @@ const redisConnection = new Redis({
     username: APP_CONFIGS.REDIS_USERNAME,
     tls: {}
 });
-// set up a queue
-export const logDetails = new Queue(APP_CONFIGS.QUEUE_NAME, {connection: redisConnection});
+
+redisConnection.on('error', (error) =>  {
+    console.log(error + ' happend in redis')
+})
