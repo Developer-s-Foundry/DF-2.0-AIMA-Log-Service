@@ -1,7 +1,6 @@
 import { Entity, Column, ManyToOne,  } from "typeorm";
 import { BaseModel } from './base_model';
 import { Incident } from './incident';
-import { Exclude } from 'class-transformer';
 import { Project } from "./project";
 
 
