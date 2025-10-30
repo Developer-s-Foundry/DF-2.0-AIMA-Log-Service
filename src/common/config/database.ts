@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
     ? ["../../models/entities/**/*{.ts,.js}"]
     : ["src/models/entities/**/*{.ts,.js}"],
     migrations: APP_CONFIGS.NODE_ENV === 'prod'
-    ? ["../../dist/migrations/**/*{.ts,.js}"]
+    ? ["./dist/migrations/**/*{.ts,.js}"]
     : ["src/migrations/**/*{.ts,.js}"],
     // migrationsRun: true,
     ssl: true,
