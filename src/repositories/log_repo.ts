@@ -1,8 +1,9 @@
-import { logData } from './../common/types/interface';
+import { logData, QueryData, TimeStampData } from './../common/types/interface';
 import { AppDataSource } from "../common/config/database";
 import { Log } from "../models/entities/log";
 import { Repository } from 'typeorm';
 import { Project } from '../models/entities/project';
+import { buildTimestamp, validateTimeQuery } from '../common/utils/helper_func';
 
 
 
@@ -33,5 +34,27 @@ export class LogRepo {
 
         await this.logRepository.save(new_log);
         return new_log;
+    }
+
+    async getLogs(data: QueryData, timeData: TimeStampData) {
+        // validate time stamp, throw error if not passed in sequence
+        validateTimeQuery(timeData);
+        // create timestam from query
+        const timeStamp = buildTimestamp(timeData);
+        data.time_stamp = timeStamp;
+        const findOptions = {
+            where: {
+                value: data.value,
+                result_type: data.result_type,
+                metric_name: data.metric_name, 
+                app_name: data.app_name,
+                time_stamp: data.time_stamp
+            },
+            // Add pagination and limit if needed
+            skip: data.page,
+            take: data.limit,
+        };
+
+        return await this.logRepository.find(findOptions);
     }
 }

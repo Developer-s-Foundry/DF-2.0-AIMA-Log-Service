@@ -15,17 +15,22 @@ export class LogController extends Controller {
     @Tags('Logs')
     public async getLogs(
         @Query() value: number,
-        @Query() resource: string,
-        @Query() service_type: string,
-        @Query() metric_value: string,
-        @Query() label_value: string,
+        @Query() result_type: string,
+        @Query() metric_name: string,
+        @Query() app_name: string,
+        @Query() year: number,
         @Query() month: number,
         @Query() day: number,
         @Query() hour: number,
-        @Query() minutes: number
+        @Query() minutes: number,
+
     ) {
-     // return logs to user based on query,
-     // include pagination and limit
+        
+
+
+        return ({
+            message: 'successful'
+        })
 
     }
 }
