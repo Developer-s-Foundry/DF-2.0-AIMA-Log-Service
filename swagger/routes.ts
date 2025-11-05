@@ -12,6 +12,55 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "SeverityLevel": {
+        "dataType": "refEnum",
+        "enums": ["low","medium","high","critical"],
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Log": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "created_at": {"dataType":"datetime","required":true},
+            "update_at": {"dataType":"datetime","required":true},
+            "metric_name": {"dataType":"string","required":true},
+            "timestamp": {"dataType":"datetime","required":true},
+            "value": {"dataType":"double","required":true},
+            "result_type": {"dataType":"string","required":true},
+            "app_name": {"dataType":"string","required":true},
+            "instance": {"dataType":"string","required":true},
+            "job": {"dataType":"string","required":true},
+            "incident": {"ref":"Incident","required":true},
+            "project": {"ref":"Project","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Incident": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "created_at": {"dataType":"datetime","required":true},
+            "update_at": {"dataType":"datetime","required":true},
+            "severity": {"ref":"SeverityLevel","required":true},
+            "ocurrence": {"dataType":"double","required":true},
+            "logs": {"dataType":"array","array":{"dataType":"refObject","ref":"Log"},"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Project": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "created_at": {"dataType":"datetime","required":true},
+            "update_at": {"dataType":"datetime","required":true},
+            "project_id": {"dataType":"string","required":true},
+            "logs": {"dataType":"array","array":{"dataType":"refObject","ref":"Log"},"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const templateService = new ExpressTemplateService(models, {"noImplicitAdditionalProperties":"throw-on-extras","bodyCoercion":true});
 
@@ -38,7 +87,9 @@ export function RegisterRoutes(app: Router) {
                 month: {"in":"query","name":"month","required":true,"dataType":"double"},
                 day: {"in":"query","name":"day","required":true,"dataType":"double"},
                 hour: {"in":"query","name":"hour","required":true,"dataType":"double"},
-                minutes: {"in":"query","name":"minutes","required":true,"dataType":"double"},
+                minute: {"in":"query","name":"minute","required":true,"dataType":"double"},
+                page: {"in":"query","name":"page","required":true,"dataType":"double"},
+                limit: {"in":"query","name":"limit","required":true,"dataType":"double"},
         };
         app.get('/logs/search-logs',
             ...(fetchMiddlewares<RequestHandler>(LogController)),

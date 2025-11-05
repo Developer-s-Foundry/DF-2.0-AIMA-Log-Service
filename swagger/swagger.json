@@ -6,7 +6,148 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"schemas": {},
+		"schemas": {
+			"SeverityLevel": {
+				"enum": [
+					"low",
+					"medium",
+					"high",
+					"critical"
+				],
+				"type": "string"
+			},
+			"Log": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"update_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"metric_name": {
+						"type": "string"
+					},
+					"timestamp": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"value": {
+						"type": "number",
+						"format": "double"
+					},
+					"result_type": {
+						"type": "string"
+					},
+					"app_name": {
+						"type": "string"
+					},
+					"instance": {
+						"type": "string"
+					},
+					"job": {
+						"type": "string"
+					},
+					"incident": {
+						"$ref": "#/components/schemas/Incident"
+					},
+					"project": {
+						"$ref": "#/components/schemas/Project"
+					}
+				},
+				"required": [
+					"id",
+					"created_at",
+					"update_at",
+					"metric_name",
+					"timestamp",
+					"value",
+					"result_type",
+					"app_name",
+					"instance",
+					"job",
+					"incident",
+					"project"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Incident": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"update_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"severity": {
+						"$ref": "#/components/schemas/SeverityLevel"
+					},
+					"ocurrence": {
+						"type": "number",
+						"format": "double"
+					},
+					"logs": {
+						"items": {
+							"$ref": "#/components/schemas/Log"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"created_at",
+					"update_at",
+					"severity",
+					"ocurrence",
+					"logs"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Project": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"update_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"project_id": {
+						"type": "string"
+					},
+					"logs": {
+						"items": {
+							"$ref": "#/components/schemas/Log"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"created_at",
+					"update_at",
+					"project_id",
+					"logs"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
 		"securitySchemes": {}
 	},
 	"info": {
@@ -27,15 +168,10 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"properties": {
-										"message": {
-											"type": "string"
-										}
+									"items": {
+										"$ref": "#/components/schemas/Log"
 									},
-									"required": [
-										"message"
-									],
-									"type": "object"
+									"type": "array"
 								}
 							}
 						}
@@ -117,7 +253,25 @@
 					},
 					{
 						"in": "query",
-						"name": "minutes",
+						"name": "minute",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
 						"required": true,
 						"schema": {
 							"format": "double",
