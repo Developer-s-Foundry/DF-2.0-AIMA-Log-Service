@@ -30,7 +30,7 @@ export class logData {
 
 export interface QueryData {
     page: number
-    limit: number
+    pageLimit: number
     value: number | undefined 
     result_type: string | undefined 
     metric_name: string | undefined 

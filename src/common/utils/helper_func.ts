@@ -26,7 +26,7 @@ export function validateTimeQuery(query: Record<TimeKeys, number |undefined >) {
     const key = orderedKeys[i];
     const nextKeys = orderedKeys.slice(0, i); // keys must be sequential
 
-    if (query[key] && nextKeys.some(k => !query[k])) {
+    if (nextKeys.some(k => !query[k])) {
       throw new Error(`${key} cannot be used without ${nextKeys.join(', ')}`);
     }
   }
@@ -51,15 +51,3 @@ export function validateTimeQuery(query: Record<TimeKeys, number |undefined >) {
   return date.getTime(); // timestamp in ms
 }
 
-// function extractUserData(data: QueryData): Record<string, string | number> {
-//   const keysNeeded = ['value', 'result_type', 'metric_name', 'app_name'];
-//   const parsedData: Record<string, string | number> = {};
-
-//   for (const key of Object.keys(data)) {
-//     if (data && keysNeeded.includes(key)) {
-//       parsedData[key] = data[key];
-//     }
-//   }
-
-//   return parsedData;
-// }

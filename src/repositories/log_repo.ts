@@ -52,7 +52,7 @@ export class LogRepo {
             },
             // Add pagination and limit if needed
             skip: data.page,
-            take: data.limit,
+            take: data.pageLimit,
         };
 
         return await this.logRepository.find(findOptions);
