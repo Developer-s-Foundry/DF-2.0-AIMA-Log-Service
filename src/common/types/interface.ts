@@ -27,3 +27,21 @@ export class logData {
     job: string
 
 }
+
+export interface QueryData {
+    page: number
+    pageLimit: number
+    value: number | undefined 
+    result_type: string | undefined 
+    metric_name: string | undefined 
+    app_name: string | undefined 
+    time_stamp: number | undefined 
+}
+
+export interface TimeStampData {
+    year: number
+    month: number | undefined
+    day: number | undefined
+    hour: number | undefined
+    minute: number | undefined
+}

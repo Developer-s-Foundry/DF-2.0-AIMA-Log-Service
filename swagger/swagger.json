@@ -22,8 +22,23 @@
 			"get": {
 				"operationId": "GetLogs",
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
 					}
 				},
 				"tags": [
@@ -42,7 +57,7 @@
 					},
 					{
 						"in": "query",
-						"name": "resource",
+						"name": "result_type",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -50,7 +65,7 @@
 					},
 					{
 						"in": "query",
-						"name": "service_type",
+						"name": "metric_name",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -58,7 +73,7 @@
 					},
 					{
 						"in": "query",
-						"name": "metric_value",
+						"name": "app_name",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -66,10 +81,11 @@
 					},
 					{
 						"in": "query",
-						"name": "label_value",
+						"name": "year",
 						"required": true,
 						"schema": {
-							"type": "string"
+							"format": "double",
+							"type": "number"
 						}
 					},
 					{

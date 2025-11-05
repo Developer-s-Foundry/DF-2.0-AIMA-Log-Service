@@ -31,10 +31,10 @@ export function RegisterRoutes(app: Router) {
     
         const argsLogController_getLogs: Record<string, TsoaRoute.ParameterSchema> = {
                 value: {"in":"query","name":"value","required":true,"dataType":"double"},
-                resource: {"in":"query","name":"resource","required":true,"dataType":"string"},
-                service_type: {"in":"query","name":"service_type","required":true,"dataType":"string"},
-                metric_value: {"in":"query","name":"metric_value","required":true,"dataType":"string"},
-                label_value: {"in":"query","name":"label_value","required":true,"dataType":"string"},
+                result_type: {"in":"query","name":"result_type","required":true,"dataType":"string"},
+                metric_name: {"in":"query","name":"metric_name","required":true,"dataType":"string"},
+                app_name: {"in":"query","name":"app_name","required":true,"dataType":"string"},
+                year: {"in":"query","name":"year","required":true,"dataType":"double"},
                 month: {"in":"query","name":"month","required":true,"dataType":"double"},
                 day: {"in":"query","name":"day","required":true,"dataType":"double"},
                 hour: {"in":"query","name":"hour","required":true,"dataType":"double"},

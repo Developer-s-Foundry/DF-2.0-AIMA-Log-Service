@@ -14,7 +14,7 @@ export class Log extends BaseModel{
     @Column()
     timestamp!: Date
 
-    // @Column({ type: 'jsonb', default: () => "'{}'" })
+    // @Column({ type: 'jsonb', default: () => "'{}'" })  month: number
     // labels!: Record<string, any>
 
     @Column({nullable: false})

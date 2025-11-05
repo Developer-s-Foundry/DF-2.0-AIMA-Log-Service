@@ -8,15 +8,22 @@ import { parseTimestamp } from "../common/utils/helper_func";
 export const logMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
   // also verify that the user is authenticated
-  if (!req.headers['X-logservice-timestamp'] || !req.headers['X-logservice-signature'])  {
+  const requestHeaders = JSON.stringify(req.headers)
+  console.log(`request-headers - ${requestHeaders}`, )
+  if (!req.headers['x-gateway-timestamp'] || !req.headers['x-gateway-signature'])  {
+
     throw new LogError('credentials not found', 400);
   }
-  const recievedTimestamp = req.headers['X-logservice-timestamp'];
-  const signature = req.headers['X-logservice-signature'];
+  const serviceName = req.headers['x-service-name'];
+  const recievedTimestamp = req.headers['x-gateway-timestamp'];
+ 
+  const signature = req.headers['x-gateway-signature'];
   const normaliseTimestamp = Array.isArray(recievedTimestamp) ? recievedTimestamp.join('') : recievedTimestamp
 
+  const headerKeys = `${serviceName}:${normaliseTimestamp}`
+
   const verifySignature = createHmac("sha256", APP_CONFIGS.GATEWAY_SECRET_KEY )
-                         .update(normaliseTimestamp)
+                         .update(headerKeys)
                          .digest("hex");
 
     if (signature !== verifySignature) {
