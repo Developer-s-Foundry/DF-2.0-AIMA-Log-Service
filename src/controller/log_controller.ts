@@ -15,17 +15,17 @@ export class LogController extends Controller {
     @Get('/search-logs')
     @Tags('Logs')
     public async getLogs(
-        @Query() value: number,
-        @Query() result_type: string,
-        @Query() metric_name: string,
-        @Query() app_name: string,
+        @Query() value: number | undefined,
+        @Query() result_type: string | undefined,
+        @Query() metric_name: string | undefined,
+        @Query() app_name: string | undefined,
         @Query() year: number,
-        @Query() month: number,
-        @Query() day: number,
-        @Query() hour: number,
-        @Query() minute: number,
+        @Query() month: number | undefined,
+        @Query() day: number | undefined,
+        @Query() hour: number | undefined,
+        @Query() minute: number | undefined,
         @Query() page: number,
-        @Query() limit: number
+        @Query() limit: number | undefined,
     ) {
         if (!year && !page) {
             throw new LogError('year and page number not included', 400)

@@ -79,17 +79,17 @@ export function RegisterRoutes(app: Router) {
 
     
         const argsLogController_getLogs: Record<string, TsoaRoute.ParameterSchema> = {
-                value: {"in":"query","name":"value","required":true,"dataType":"double"},
-                result_type: {"in":"query","name":"result_type","required":true,"dataType":"string"},
-                metric_name: {"in":"query","name":"metric_name","required":true,"dataType":"string"},
-                app_name: {"in":"query","name":"app_name","required":true,"dataType":"string"},
+                value: {"in":"query","name":"value","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
+                result_type: {"in":"query","name":"result_type","required":true,"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
+                metric_name: {"in":"query","name":"metric_name","required":true,"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
+                app_name: {"in":"query","name":"app_name","required":true,"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
                 year: {"in":"query","name":"year","required":true,"dataType":"double"},
-                month: {"in":"query","name":"month","required":true,"dataType":"double"},
-                day: {"in":"query","name":"day","required":true,"dataType":"double"},
-                hour: {"in":"query","name":"hour","required":true,"dataType":"double"},
-                minute: {"in":"query","name":"minute","required":true,"dataType":"double"},
+                month: {"in":"query","name":"month","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
+                day: {"in":"query","name":"day","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
+                hour: {"in":"query","name":"hour","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
+                minute: {"in":"query","name":"minute","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
                 page: {"in":"query","name":"page","required":true,"dataType":"double"},
-                limit: {"in":"query","name":"limit","required":true,"dataType":"double"},
+                limit: {"in":"query","name":"limit","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
         };
         app.get('/logs/search-logs',
             ...(fetchMiddlewares<RequestHandler>(LogController)),
