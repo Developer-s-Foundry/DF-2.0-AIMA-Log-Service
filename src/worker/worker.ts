@@ -17,16 +17,19 @@ export const workerSystem = async () => {
   APP_CONFIGS.QUEUE_NAME,
     async job => {
       console.log('i worked ', job.data)
-      if(job.data) {
+      if(!job.data) {
         throw new Error('job not found')
       } 
-      const metricData = job.data;
+      const metricData = {...job.data};
 
       //convert timestamp to date object
-      if (metricData.timestamp && metricData.value) {
-          metricData.timestamp = new Date(metricData.timestamp);
-          metricData.value = parseInt(metricData.value);
+      if (metricData.time_stamp && metricData.value) {
+          metricData.time_stamp = new Date(metricData.timestamp);
+          metricData.value = Number(metricData.value);
+          console.log(metricData.timestamp, metricData.value)
       }
+
+      console.log(metricData)
     // persist data into db
     if (!(parseData(metricData))){
         throw new Error('metric data not found');
