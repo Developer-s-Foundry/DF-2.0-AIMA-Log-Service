@@ -4,7 +4,7 @@ import express, { Response as ExResponse, Request as ExRequest } from "express";
 import { dbInitialization } from "./common/config/database";
 import { workerSystem } from "./worker/worker";
 import { consumeMsg } from "./broker/consumers/prom_data_consumer";
-import { RegisterRoutes } from '../swagger/routes'
+import { RegisterRoutes } from './swagger/routes'
 import swaggerUi from "swagger-ui-express";
 import { logMiddleware } from "./Middleware/log_middleware";
 
@@ -17,7 +17,7 @@ import { logMiddleware } from "./Middleware/log_middleware";
 
   app.use("/docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
     return res.send(
-      swaggerUi.generateHTML(await import("../swagger/swagger.json"))
+      swaggerUi.generateHTML(await import("./swagger/swagger.json"))
     );
   });
   
