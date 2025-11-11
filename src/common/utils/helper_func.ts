@@ -9,14 +9,23 @@ export const parseData = (data: any) => {
     return (
         data.metric_name &&  typeof data.metric_name === 'string' &&
         data.project_id &&  typeof data.project_id === 'string' &&
-        data.time_stamp && data.time_stamp instanceof Date &&
+        data.time_stamp && typeof data.time_stamp === 'number' &&
         data.value &&  typeof data.value === 'number' &&
         data.result_type &&  typeof data.result_type === 'string' &&
         data.app &&  typeof data.app === 'string' &&
-        data.instance &&  typeof data.instance=== 'string' &&
-        data. job &&  typeof data. job === 'string'
+        data.instance &&  typeof data.instance === 'string' &&
+        data. job &&  typeof data.job === 'string'
     )
 }
+
+  //  data.metric_name &&  typeof data.metric_name === 'string' &&
+  //       data.project_id &&  typeof data.project_id === 'string' &&
+  //       data.time_stamp && data.time_stamp === 'number' &&
+  //       data.value &&  typeof data.value === 'number' &&
+  //       data.result_type &&  typeof data.result_type === 'string' &&
+  //       data.app &&  typeof data.app === 'string' &&
+  //       data.instance &&  typeof data.instance === 'string' &&
+  //       data. job &&  typeof data.job === 'string'
 
 const orderedKeys = ['year', 'month', 'day', 'hour', 'minute'] as const;
 type TimeKeys = typeof orderedKeys[number];
@@ -48,6 +57,6 @@ export function validateTimeQuery(query: Record<TimeKeys, number |undefined >) {
   const finalMinute = minute ?? 0;
 
   const date = new Date(finalYear, finalMonth, finalDay, finalHour, finalMinute);
-  return date.getTime(); // timestamp in ms
+  return date
 }
 

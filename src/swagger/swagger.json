@@ -32,7 +32,7 @@
 					"metric_name": {
 						"type": "string"
 					},
-					"timestamp": {
+					"time_stamp": {
 						"type": "string",
 						"format": "date-time"
 					},
@@ -43,7 +43,7 @@
 					"result_type": {
 						"type": "string"
 					},
-					"app_name": {
+					"app": {
 						"type": "string"
 					},
 					"instance": {
@@ -64,10 +64,10 @@
 					"created_at",
 					"update_at",
 					"metric_name",
-					"timestamp",
+					"time_stamp",
 					"value",
 					"result_type",
-					"app_name",
+					"app",
 					"instance",
 					"job",
 					"incident",

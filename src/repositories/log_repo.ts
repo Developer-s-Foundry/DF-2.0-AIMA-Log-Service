@@ -28,7 +28,9 @@ export class LogRepo {
         const new_project = this.projectRepo.create({project_id: logData.project_id});
         await this.projectRepo.save(new_project)
         // create logs, link with project
-        const new_log = this.logRepository.create(logData);
+        // construct new log data
+        const newTimestamp = new Date(logData.time_stamp)
+        const new_log = this.logRepository.create({...logData, time_stamp: newTimestamp });
         // save to database
         new_log.project = new_project;
 
@@ -41,14 +43,13 @@ export class LogRepo {
         validateTimeQuery(timeData);
         // create timestam from query
         const timeStamp = buildTimestamp(timeData);
-        data.time_stamp = timeStamp;
         const findOptions = {
             where: {
                 value: data.value,
                 result_type: data.result_type,
                 metric_name: data.metric_name, 
                 app_name: data.app_name,
-                time_stamp: data.time_stamp
+                time_stamp: timeStamp
             },
             // Add pagination and limit if needed
             skip: data.page,

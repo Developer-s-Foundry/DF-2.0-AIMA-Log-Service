@@ -9,7 +9,7 @@ export class logData {
     project_id: string
 
     
-    time_stamp: Date
+    time_stamp: number
 
     @IsNumber()
     value: number

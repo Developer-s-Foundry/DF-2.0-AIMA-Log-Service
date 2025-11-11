@@ -24,9 +24,9 @@ export const workerSystem = async () => {
 
       //convert timestamp to date object
       if (metricData.time_stamp && metricData.value) {
-          metricData.time_stamp = new Date(metricData.timestamp);
+          metricData.time_stamp = Number(metricData.time_stamp);
           metricData.value = Number(metricData.value);
-          console.log(metricData.timestamp, metricData.value)
+          console.log(metricData.time_stamp, metricData.value)
       }
 
       console.log(metricData)
@@ -34,6 +34,8 @@ export const workerSystem = async () => {
     if (!(parseData(metricData))){
         throw new Error('metric data not found');
     }
+
+    
     const logData = logService.createLog(metricData);
     console.log('persisted in database');
 
