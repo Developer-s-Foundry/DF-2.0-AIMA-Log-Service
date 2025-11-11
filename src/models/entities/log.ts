@@ -11,8 +11,8 @@ export class Log extends BaseModel{
     @Column()
     metric_name!:  string
 
-    @Column()
-    timestamp!: Date
+    @Column({type: 'timestamp'})
+    time_stamp!: Date
 
     // @Column({ type: 'jsonb', default: () => "'{}'" })  month: number
     // labels!: Record<string, any>
@@ -24,7 +24,7 @@ export class Log extends BaseModel{
     result_type!: string
 
     @Column()
-    app_name!: string
+    app!: string
 
     @Column()
     instance!: string
