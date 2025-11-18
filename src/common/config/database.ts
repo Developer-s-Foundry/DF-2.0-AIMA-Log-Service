@@ -11,13 +11,12 @@ export const AppDataSource = new DataSource({
     password: APP_CONFIGS.DATABASE_PASSWORD,
     database: APP_CONFIGS.DATABASE_NAME,
     logging: true,
-     entities: APP_CONFIGS.NODE_ENV === 'prod'
-    ? ["../../models/entities/**/*{.ts,.js}"]
+    entities: APP_CONFIGS.NODE_ENV === 'prod'
+    ? ["./dist/models/entities/**/*{.ts,.js}"]
     : ["src/models/entities/**/*{.ts,.js}"],
     migrations: APP_CONFIGS.NODE_ENV === 'prod'
     ? ["./dist/migrations/**/*{.ts,.js}"]
     : ["src/migrations/**/*{.ts,.js}"],
-    // migrationsRun: true,
     ssl: {
             ca: fs.readFileSync(path.resolve(__dirname, '../../../ca.pem')).toString(),
                 rejectUnauthorized: true,
