@@ -1,7 +1,5 @@
-
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Exclude } from "class-transformer";
-
 
 
 @Entity()

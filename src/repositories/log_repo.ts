@@ -3,8 +3,6 @@ import { AppDataSource } from "../common/config/database";
 import { Log } from "../models/entities/log";
 import { Repository } from 'typeorm';
 import { Event } from '../models/entities/event';
-import { buildTimestamp} from '../common/utils/helper_func';
-import { timeStampDto } from '../common/dto/log_dtos';
 
 
 
