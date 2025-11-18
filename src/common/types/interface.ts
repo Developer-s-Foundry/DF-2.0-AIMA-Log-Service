@@ -5,43 +5,43 @@ export class logData {
     @IsString()
     metric_name!: string
 
-     @IsString()
-    project_id: string
-
+    @IsString()
+    event_id: string
     
-    time_stamp: number
-
-    @IsNumber()
-    value: number
+    time_stamp: Date
 
     @IsString()
-    result_type: string
+    metric_type: string
 
     @IsString()
-    app: string
+    source: string
 
     @IsString()
-    instance: string
+    version: string
 
     @IsString()
-    job: string
+    labels: string | string[] | undefined
 
 }
 
 export interface QueryData {
-    page: number
+    pageNumber: number
     pageLimit: number
-    value: number | undefined 
-    result_type: string | undefined 
-    metric_name: string | undefined 
-    app_name: string | undefined 
-    time_stamp: number | undefined 
+    metric_type?: string
+    metric_name?: string
+    source?: string
 }
 
-export interface TimeStampData {
-    year: number
-    month: number | undefined
-    day: number | undefined
-    hour: number | undefined
-    minute: number | undefined
+export enum timeDifference {
+    oneHourAgo = '1-hour-ago',
+    twoHourAgo = '2-hours-ago',
+    oneDayAgo = "1-day-ago",
+    aMonthAgo = '1-month-ago',
+    aYearAgo = '1-year-ago'
+}
+
+export interface metricPatialData {
+    metricName: string,
+    metricType: string,
+    label?: string | Array<string>
 }

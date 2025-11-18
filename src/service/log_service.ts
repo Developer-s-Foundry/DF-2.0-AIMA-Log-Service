@@ -12,5 +12,8 @@ export class LogService  {
 
     async createLog(logData: logData) {
         return instanceToPlain(this.logRepository.createLog(logData))
+        // return this.logRepository.createLog(logData)
     }
+
+    
 }

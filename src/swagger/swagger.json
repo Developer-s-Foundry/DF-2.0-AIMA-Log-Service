@@ -36,27 +36,21 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"value": {
-						"type": "number",
-						"format": "double"
-					},
-					"result_type": {
+					"labels": {},
+					"metric_type": {
 						"type": "string"
 					},
-					"app": {
+					"version": {
 						"type": "string"
 					},
-					"instance": {
-						"type": "string"
-					},
-					"job": {
+					"source": {
 						"type": "string"
 					},
 					"incident": {
 						"$ref": "#/components/schemas/Incident"
 					},
-					"project": {
-						"$ref": "#/components/schemas/Project"
+					"event": {
+						"$ref": "#/components/schemas/Event"
 					}
 				},
 				"required": [
@@ -65,13 +59,12 @@
 					"update_at",
 					"metric_name",
 					"time_stamp",
-					"value",
-					"result_type",
-					"app",
-					"instance",
-					"job",
+					"labels",
+					"metric_type",
+					"version",
+					"source",
 					"incident",
-					"project"
+					"event"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -114,7 +107,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Project": {
+			"Event": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -127,7 +120,7 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"project_id": {
+					"event_id": {
 						"type": "string"
 					},
 					"logs": {
@@ -141,11 +134,21 @@
 					"id",
 					"created_at",
 					"update_at",
-					"project_id",
+					"event_id",
 					"logs"
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"timeDifference": {
+				"enum": [
+					"1-hour-ago",
+					"2-hours-ago",
+					"1-day-ago",
+					"1-month-ago",
+					"1-year-ago"
+				],
+				"type": "string"
 			}
 		},
 		"securitySchemes": {}
@@ -184,86 +187,16 @@
 				"parameters": [
 					{
 						"in": "query",
-						"name": "value",
-						"required": true,
+						"name": "time_difference",
+						"required": false,
 						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "result_type",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "metric_name",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "app_name",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "year",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "month",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "day",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "hour",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
-					{
-						"in": "query",
-						"name": "minute",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
+							"$ref": "#/components/schemas/timeDifference"
 						}
 					},
 					{
 						"in": "query",
 						"name": "page",
-						"required": true,
+						"required": false,
 						"schema": {
 							"format": "double",
 							"type": "number"
@@ -271,8 +204,32 @@
 					},
 					{
 						"in": "query",
+						"name": "metric_name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "metric_type",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "source",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
 						"name": "limit",
-						"required": true,
+						"required": false,
 						"schema": {
 							"format": "double",
 							"type": "number"

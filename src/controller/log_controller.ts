@@ -1,6 +1,8 @@
+import { timeDifference } from './../common/types/interface';
 import { LogError } from "../common/types/error_types";
 import { LogRepo } from "../repositories/log_repo";
 import { Controller, Get, Query, Route, Tags } from "tsoa";
+import { Log } from '../models/entities/log';
 
 
 @Route('logs')
@@ -15,33 +17,26 @@ export class LogController extends Controller {
     @Get('/search-logs')
     @Tags('Logs')
     public async getLogs(
-        @Query() value: number | undefined,
-        @Query() result_type: string | undefined,
-        @Query() metric_name: string | undefined,
-        @Query() app_name: string | undefined,
-        @Query() year: number,
-        @Query() month: number | undefined,
-        @Query() day: number | undefined,
-        @Query() hour: number | undefined,
-        @Query() minute: number | undefined,
-        @Query() page: number,
-        @Query() limit: number | undefined,
-    ) {
-        if (!year && !page) {
-            throw new LogError('year and page number not included', 400)
-        }
+        @Query() time_difference?: timeDifference,
+        @Query() page?: number,
+        @Query() metric_name?: string,
+        @Query() metric_type?: string,
+        @Query() source?: string,
+        @Query() limit?: number,
+    ) : Promise<Log[]> {
+        
         const pageLimit = limit || 10
-        const time_stamp = 0;
+        const pageNumber = page || 0;
+        const timeDifferences = time_difference || timeDifference.oneHourAgo;
         const queryData = {
-            value, result_type, metric_name, 
-            app_name, page, pageLimit, time_stamp
+            metric_name, 
+            metric_type,
+            source,
+            pageNumber, 
+            pageLimit, 
         }
 
-        const timeData = {
-            year, month, day, hour, minute
-        }
-
-        return await this.logRepository.getLogs(queryData, timeData)
+        return await this.logRepository.getLogs(queryData, timeDifferences)
 
     }
 }

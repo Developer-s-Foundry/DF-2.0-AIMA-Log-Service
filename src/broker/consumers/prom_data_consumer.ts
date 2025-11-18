@@ -15,12 +15,15 @@ export const consumeMsg = () => {
       }
 
       // assert the queue first (and wait for completion)
-      return channel.assertQueue(APP_CONFIGS.QUEUE_NAME_RMQ_1, assertQueueOptions)
-        .then(() => {
-          console.log('Queue asserted successfully');
+      return channel.assertExchange(APP_CONFIGS.PROM_EXCHANGE_NAME, 'fanout', {durable: false})
+        .then( async () => {
+          console.log('Exchange asserted successfully');
 
           // start consuming messages
-          channel.consume(APP_CONFIGS.QUEUE_NAME_RMQ_1, (msg) => {
+          const queueCopy = await channel.assertQueue('', { exclusive: true });
+          await channel.bindQueue(queueCopy.queue, APP_CONFIGS.PROM_EXCHANGE_NAME, '');
+  
+          channel.consume(queueCopy.queue, (msg) => {
             if (!msg) {
               console.error('Consumer cancelled by server');
               return;
@@ -34,7 +37,7 @@ export const consumeMsg = () => {
               addJobsToQueue(logDetails, APP_CONFIGS.JOB_NAME, content)
                 .then(() => {
                   console.log('Job added to queue');
-                  channel.ack(msg);
+                  // channel.ack(msg);
                 })
                 .catch((err) => {
                   console.error('Error adding job to queue:', err);

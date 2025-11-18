@@ -15,12 +15,12 @@ export const logMiddleware = (req: Request, res: Response, next: NextFunction) =
     throw new LogError('credentials not found', 400);
   }
   const serviceName = req.headers['x-service-name'];
-  const recievedTimestamp = req.headers['x-gateway-timestamp'];
+  const recievedTimestamp = req.headers['x-gateway-timestamp'] as string;
  
   const signature = req.headers['x-gateway-signature'];
-  const normaliseTimestamp = Array.isArray(recievedTimestamp) ? recievedTimestamp.join('') : recievedTimestamp
+ // const normaliseTimestamp = Array.isArray(recievedTimestamp) ? recievedTimestamp.join('') : recievedTimestamp
 
-  const headerKeys = `${serviceName}:${normaliseTimestamp}`
+  const headerKeys = `${serviceName}:${recievedTimestamp}`
 
   const verifySignature = createHmac("sha256", APP_CONFIGS.GATEWAY_SECRET_KEY )
                          .update(headerKeys)
@@ -30,7 +30,7 @@ export const logMiddleware = (req: Request, res: Response, next: NextFunction) =
       throw new LogError('unathorised to access this resource', 403)
     }
 
-    const modTimestamp = parseTimestamp(normaliseTimestamp, 30) 
+    const modTimestamp = parseTimestamp(recievedTimestamp, 30) 
     const currentTimestamp = Date.now()  
     if (modTimestamp < currentTimestamp )  {
       throw new LogError('your time has expired', 403)
