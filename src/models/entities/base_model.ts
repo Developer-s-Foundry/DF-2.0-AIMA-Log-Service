@@ -7,15 +7,14 @@ import { Exclude } from "class-transformer";
 @Entity()
 export class BaseModel {
     @Exclude()
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id!: string
 
     @Exclude()
-    @CreateDateColumn()
+    @CreateDateColumn({type: 'timestamptz'})
     created_at!: Date
 
     @Exclude()
-    @UpdateDateColumn()
+    @UpdateDateColumn({type: 'timestamptz'})
     update_at!: Date
-    
 } 

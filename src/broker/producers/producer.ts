@@ -23,7 +23,9 @@ export const publishMsg = (msg: string) => {
             }).catch(((error) => {
                 console.log(`unable to create a Queue${error}`);
             }));
+            channel.assertQueue('logData2', {durable: true})
             channel.bindQueue(APP_CONFIGS.QUEUE_NAME_RMQ_2, exchangeName,routingKey)
+            channel.bindQueue('logData2', exchangeName,routingKey)
             .then(() => {
                 console.log(`bind to queue successfully`);
                 setInterval(() => channel.publish(

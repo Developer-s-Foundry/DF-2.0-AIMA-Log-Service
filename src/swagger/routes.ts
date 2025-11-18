@@ -25,13 +25,12 @@ const models: TsoaRoute.Models = {
             "update_at": {"dataType":"datetime","required":true},
             "metric_name": {"dataType":"string","required":true},
             "time_stamp": {"dataType":"datetime","required":true},
-            "value": {"dataType":"double","required":true},
-            "result_type": {"dataType":"string","required":true},
-            "app": {"dataType":"string","required":true},
-            "instance": {"dataType":"string","required":true},
-            "job": {"dataType":"string","required":true},
+            "labels": {"dataType":"any","required":true},
+            "metric_type": {"dataType":"string","required":true},
+            "version": {"dataType":"string","required":true},
+            "source": {"dataType":"string","required":true},
             "incident": {"ref":"Incident","required":true},
-            "project": {"ref":"Project","required":true},
+            "event": {"ref":"Event","required":true},
         },
         "additionalProperties": false,
     },
@@ -49,16 +48,21 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Project": {
+    "Event": {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
             "created_at": {"dataType":"datetime","required":true},
             "update_at": {"dataType":"datetime","required":true},
-            "project_id": {"dataType":"string","required":true},
+            "event_id": {"dataType":"string","required":true},
             "logs": {"dataType":"array","array":{"dataType":"refObject","ref":"Log"},"required":true},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "timeDifference": {
+        "dataType": "refEnum",
+        "enums": ["1-hour-ago","2-hours-ago","1-day-ago","1-month-ago","1-year-ago"],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -79,17 +83,12 @@ export function RegisterRoutes(app: Router) {
 
     
         const argsLogController_getLogs: Record<string, TsoaRoute.ParameterSchema> = {
-                value: {"in":"query","name":"value","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
-                result_type: {"in":"query","name":"result_type","required":true,"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
-                metric_name: {"in":"query","name":"metric_name","required":true,"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
-                app_name: {"in":"query","name":"app_name","required":true,"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
-                year: {"in":"query","name":"year","required":true,"dataType":"double"},
-                month: {"in":"query","name":"month","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
-                day: {"in":"query","name":"day","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
-                hour: {"in":"query","name":"hour","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
-                minute: {"in":"query","name":"minute","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
-                page: {"in":"query","name":"page","required":true,"dataType":"double"},
-                limit: {"in":"query","name":"limit","required":true,"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"undefined"}]},
+                time_difference: {"in":"query","name":"time_difference","ref":"timeDifference"},
+                page: {"in":"query","name":"page","dataType":"double"},
+                metric_name: {"in":"query","name":"metric_name","dataType":"string"},
+                metric_type: {"in":"query","name":"metric_type","dataType":"string"},
+                source: {"in":"query","name":"source","dataType":"string"},
+                limit: {"in":"query","name":"limit","dataType":"double"},
         };
         app.get('/logs/search-logs',
             ...(fetchMiddlewares<RequestHandler>(LogController)),

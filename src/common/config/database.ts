@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { APP_CONFIGS } from ".";
-// import path from 'path'
-
+import path from 'path'
+import fs from 'fs'
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
@@ -18,7 +18,10 @@ export const AppDataSource = new DataSource({
     ? ["./dist/migrations/**/*{.ts,.js}"]
     : ["src/migrations/**/*{.ts,.js}"],
     // migrationsRun: true,
-    ssl: true,
+    ssl: {
+            ca: fs.readFileSync(path.resolve(__dirname, '../../../ca.pem')).toString(),
+                rejectUnauthorized: true,
+        },
 })
 
 export const dbInitialization = async () => {
