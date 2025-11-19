@@ -40,7 +40,7 @@ export const workerSystem = async () => {
         const extractedData = extractData(modifiedData[i]);
         const {metricName, metricType, label} = extractedData;
 
-        const logData = logService.createLog({...metricsData, 
+        await logService.createLog({...metricsData, 
           metric_name: metricName, 
           metric_type: metricType,
           labels: label
@@ -49,7 +49,11 @@ export const workerSystem = async () => {
         console.log('persisted in database');
 
         // publish to broker
-        publishMsg(JSON.stringify(logData))
+        publishMsg(JSON.stringify({...metricsData, 
+          metric_name: metricName, 
+          metric_type: metricType,
+          labels: label
+        }))
         console.log('published succesfully')
       }
     
