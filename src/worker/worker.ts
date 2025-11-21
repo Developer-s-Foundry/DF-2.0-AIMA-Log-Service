@@ -14,7 +14,7 @@ export const workerSystem = async () => {
   console.log('queue processing started');
 
   const worker = new Worker(
-  APP_CONFIGS.QUEUE_NAME,
+  APP_CONFIGS.QUEUE_NAME as string,
     async job => {
       const jobData = job.data;
       console.log('i worked ', jobData)

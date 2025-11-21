@@ -22,7 +22,7 @@ export const logMiddleware = (req: Request, res: Response, next: NextFunction) =
 
   const headerKeys = `${serviceName}:${recievedTimestamp}`
 
-  const verifySignature = createHmac("sha256", APP_CONFIGS.GATEWAY_SECRET_KEY )
+  const verifySignature = createHmac("sha256", APP_CONFIGS.GATEWAY_SECRET_KEY as string )
                          .update(headerKeys)
                          .digest("hex");
 

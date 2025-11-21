@@ -15,13 +15,13 @@ export const consumeMsg = () => {
       }
 
       // assert the queue first (and wait for completion)
-      return channel.assertExchange(APP_CONFIGS.PROM_EXCHANGE_NAME, 'fanout', {durable: false})
+      return channel.assertExchange(APP_CONFIGS.PROM_EXCHANGE_NAME as string, 'fanout', {durable: false})
         .then( async () => {
           console.log('Exchange asserted successfully');
 
           // start consuming messages
           const queueCopy = await channel.assertQueue('', { exclusive: true });
-          await channel.bindQueue(queueCopy.queue, APP_CONFIGS.PROM_EXCHANGE_NAME, '');
+          await channel.bindQueue(queueCopy.queue, APP_CONFIGS.PROM_EXCHANGE_NAME as string, '');
   
           channel.consume(queueCopy.queue, (msg) => {
             if (!msg) {
@@ -34,7 +34,7 @@ export const consumeMsg = () => {
               console.log('Received message:', content);
 
               // send to BullMQ queue
-              addJobsToQueue(logDetails, APP_CONFIGS.JOB_NAME, content)
+              addJobsToQueue(logDetails, APP_CONFIGS.JOB_NAME as string, content)
                 .then(() => {
                   console.log('Job added to queue');
                   // channel.ack(msg);

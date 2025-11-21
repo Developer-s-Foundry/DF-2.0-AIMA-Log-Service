@@ -20,14 +20,14 @@ export const publishMsg = (msg: string) => {
             console.log('exchange asserted successfully');
 
             // create a permanent queue
-            channel.assertQueue(APP_CONFIGS.QUEUE_NAME_RMQ_2, {durable: true})
+            channel.assertQueue(APP_CONFIGS.QUEUE_NAME_RMQ_2 as string, {durable: true})
             .then(() => {
                 console.log('queue asserted successfully');
             }).catch(((error) => {
                 console.log(`unable to create a Queue${error}`);
             }));
             channel.assertQueue(queue2, {durable: true})
-            channel.bindQueue(APP_CONFIGS.QUEUE_NAME_RMQ_2, exchangeName,routingKey);
+            channel.bindQueue(APP_CONFIGS.QUEUE_NAME_RMQ_2 as string, exchangeName,routingKey);
             
             channel.bindQueue(queue2, exchangeName,routingKey)
             .then(() => {

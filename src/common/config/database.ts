@@ -17,10 +17,10 @@ export const AppDataSource = new DataSource({
     migrations: APP_CONFIGS.NODE_ENV === 'prod'
     ? ["./dist/migrations/**/*{.ts,.js}"]
     : ["src/migrations/**/*{.ts,.js}"],
-    ssl: {
-            ca: fs.readFileSync(path.resolve(__dirname, '../../../ca.pem')).toString(),
-                rejectUnauthorized: true,
-        },
+    // ssl: {
+    //         ca: fs.readFileSync(path.resolve(__dirname, '../../../ca.pem')).toString(),
+    //             rejectUnauthorized: true,
+    //     },
 })
 
 export const dbInitialization = async () => {
