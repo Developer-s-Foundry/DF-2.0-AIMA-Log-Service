@@ -1,8 +1,8 @@
 import { timeDifference } from './../common/types/interface';
 import { LogError } from "../common/types/error_types";
-import { LogRepo } from "../repositories/log_repo";
+import { LogRepo } from "../repositories/metrics_repo";
 import { Controller, Get, Query, Route, Tags } from "tsoa";
-import { Log } from '../models/entities/log';
+import { Log } from '../models/entities/metric';
 
 
 @Route('logs')

@@ -1,18 +1,18 @@
-import { logData } from './../common/types/interface';
-import { LogRepo } from "../repositories/log_repo";
+import { MetricData } from './../common/types/interface';
+import { MetricRepo } from "../repositories/metrics_repo";
 import { instanceToPlain } from 'class-transformer';
 
 
 export class LogService  {
-    private logRepository: LogRepo 
+    private logRepository: MetricRepo 
 
     constructor() {
-        this.logRepository = new LogRepo()
+        this.logRepository = new MetricRepo()
     }
 
-    async createLog(logData: logData) {
-        return instanceToPlain(this.logRepository.createLog(logData))
-        // return this.logRepository.createLog(logData)
+    async createMetrics(MetricData: MetricData) {
+        return instanceToPlain(this.logRepository.createLog(MetricData))
+        // return this.logRepository.createLog(MetricData)
     }
 
     

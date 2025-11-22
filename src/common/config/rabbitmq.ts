@@ -1,10 +1,10 @@
 import * as amqp from 'amqplib';
 import { APP_CONFIGS } from '.';
 
-let connection: amqp.ChannelModel | null = null;
+let connection: any;
 
 // return connection
-export const getRabbitConnection = () => {
+export const getRabbitConnection = async () => {
   if (connection) {
     console.log('connection already exist');
     return Promise.resolve(connection);
@@ -17,17 +17,15 @@ export const getRabbitConnection = () => {
   })
 };
 
-export const createChannel = () => {
+
+export const createChannel = async () => {
     return getRabbitConnection()
     .then((conn) => {
         if (!conn) {
             throw new Error('failed to connect to rabbitmq')
         }
         conn.on('close', () => {
-          console.log('connection closed, retrying....')
-          setTimeout(() => {
-            createChannel();
-          }, 5000); 
+          console.log('connection closed, retrying....') 
         })
         return conn.createChannel();
     }).catch((error) => {

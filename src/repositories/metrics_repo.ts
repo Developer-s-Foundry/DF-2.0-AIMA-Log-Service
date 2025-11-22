@@ -1,42 +1,44 @@
-import { logData, QueryData, timeDifference} from './../common/types/interface';
+import { MetricData, QueryData, timeDifference} from '../common/types/interface';
 import { AppDataSource } from "../common/config/database";
-import { Log } from "../models/entities/log";
+import { Metric } from "../models/entities/metric";
 import { Repository } from 'typeorm';
-import { Event } from '../models/entities/event';
+import { ProjectRepository } from './project_repo';
 
 
 
 
 
-export class LogRepo {
+export class MetricRepo {
 
-    private eventRepo: Repository<Event>
-    private logRepository:  Repository<Log>
+    private projectRepo: ProjectRepository
+    private logRepository:  Repository<Metric>
     
     constructor() {
-        this.eventRepo = AppDataSource.getRepository(Event);
-        this.logRepository = AppDataSource.getRepository(Log);
+        this.logRepository = AppDataSource.getRepository(Metric);
+        this.projectRepo = new ProjectRepository();
     }
     
-    async createLog(logData: logData ): Promise<Log> {
-        // console.log(logData)
-        if (!logData) {
+    async createLog(MetricData: MetricData ): Promise<Metric> {
+        // console.log(MetricData)
+        if (!MetricData) {
             throw new Error('log data missing')
         }
-        // create project with event_id
-        const new_event = this.eventRepo.create({event_id: logData.event_id});
-        await this.eventRepo.save(new_event)
-        // create logs, link with project
-        // construct new log data
-        const new_log = this.logRepository.create({...logData});
-        // save to database
-        new_log.event = new_event;
+        // create project using project_id
 
+
+        let new_log = this.logRepository.create({...MetricData});
+
+        // save to database
+        const foundProject = await this.projectRepo.find(MetricData.project_id);
+        if(!foundProject) {
+            throw new Error('project not found')
+        }
+        new_log.project = foundProject;
         await this.logRepository.save(new_log);
         return new_log;
     }
 
-    async getLogs(data: QueryData, timeData: timeDifference): Promise<Log[]> {
+    async getLogs(data: QueryData, timeData: timeDifference): Promise<Metric[]> {
         const {source, metric_type,
                 metric_name, pageLimit, pageNumber} = data;
         

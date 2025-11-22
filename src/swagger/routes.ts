@@ -12,49 +12,35 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "SeverityLevel": {
-        "dataType": "refEnum",
-        "enums": ["low","medium","high","critical"],
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Log": {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
             "created_at": {"dataType":"datetime","required":true},
             "update_at": {"dataType":"datetime","required":true},
+            "type": {"dataType":"string","required":true},
             "metric_name": {"dataType":"string","required":true},
             "time_stamp": {"dataType":"datetime","required":true},
             "labels": {"dataType":"any","required":true},
-            "metric_type": {"dataType":"string","required":true},
-            "version": {"dataType":"string","required":true},
-            "source": {"dataType":"string","required":true},
-            "incident": {"ref":"Incident","required":true},
-            "event": {"ref":"Event","required":true},
+            "metric": {"dataType":"any","required":true},
+            "extras": {"dataType":"any","required":true},
+            "project": {"ref":"Project","required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Incident": {
+    "Project": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"string","required":true},
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "description": {"dataType":"string","required":true},
+            "base_url": {"dataType":"string","required":true},
+            "prometheus_metric_url": {"dataType":"string","required":true},
+            "team_id": {"dataType":"double","required":true},
+            "owner_id": {"dataType":"double","required":true},
+            "updated_at": {"dataType":"datetime","required":true},
             "created_at": {"dataType":"datetime","required":true},
-            "update_at": {"dataType":"datetime","required":true},
-            "severity": {"ref":"SeverityLevel","required":true},
-            "ocurrence": {"dataType":"double","required":true},
-            "logs": {"dataType":"array","array":{"dataType":"refObject","ref":"Log"},"required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Event": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"string","required":true},
-            "created_at": {"dataType":"datetime","required":true},
-            "update_at": {"dataType":"datetime","required":true},
-            "event_id": {"dataType":"string","required":true},
             "logs": {"dataType":"array","array":{"dataType":"refObject","ref":"Log"},"required":true},
         },
         "additionalProperties": false,

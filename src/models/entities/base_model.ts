@@ -2,7 +2,6 @@ import { Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } fr
 import { Exclude } from "class-transformer";
 
 
-@Entity()
 export class BaseModel {
     @Exclude()
     @PrimaryGeneratedColumn('uuid')

@@ -7,15 +7,6 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"SeverityLevel": {
-				"enum": [
-					"low",
-					"medium",
-					"high",
-					"critical"
-				],
-				"type": "string"
-			},
 			"Log": {
 				"properties": {
 					"id": {
@@ -29,6 +20,9 @@
 						"type": "string",
 						"format": "date-time"
 					},
+					"type": {
+						"type": "string"
+					},
 					"metric_name": {
 						"type": "string"
 					},
@@ -37,92 +31,61 @@
 						"format": "date-time"
 					},
 					"labels": {},
-					"metric_type": {
-						"type": "string"
-					},
-					"version": {
-						"type": "string"
-					},
-					"source": {
-						"type": "string"
-					},
-					"incident": {
-						"$ref": "#/components/schemas/Incident"
-					},
-					"event": {
-						"$ref": "#/components/schemas/Event"
+					"metric": {},
+					"extras": {},
+					"project": {
+						"$ref": "#/components/schemas/Project"
 					}
 				},
 				"required": [
 					"id",
 					"created_at",
 					"update_at",
+					"type",
 					"metric_name",
 					"time_stamp",
 					"labels",
-					"metric_type",
-					"version",
-					"source",
-					"incident",
-					"event"
+					"metric",
+					"extras",
+					"project"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Incident": {
+			"Project": {
 				"properties": {
 					"id": {
-						"type": "string"
-					},
-					"created_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"update_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"severity": {
-						"$ref": "#/components/schemas/SeverityLevel"
-					},
-					"ocurrence": {
 						"type": "number",
 						"format": "double"
 					},
-					"logs": {
-						"items": {
-							"$ref": "#/components/schemas/Log"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"id",
-					"created_at",
-					"update_at",
-					"severity",
-					"ocurrence",
-					"logs"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Event": {
-				"properties": {
-					"id": {
+					"name": {
 						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"base_url": {
+						"type": "string"
+					},
+					"prometheus_metric_url": {
+						"type": "string"
+					},
+					"team_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"owner_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
 					},
 					"created_at": {
 						"type": "string",
 						"format": "date-time"
 					},
-					"update_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"event_id": {
-						"type": "string"
-					},
 					"logs": {
 						"items": {
 							"$ref": "#/components/schemas/Log"
@@ -132,9 +95,14 @@
 				},
 				"required": [
 					"id",
+					"name",
+					"description",
+					"base_url",
+					"prometheus_metric_url",
+					"team_id",
+					"owner_id",
+					"updated_at",
 					"created_at",
-					"update_at",
-					"event_id",
 					"logs"
 				],
 				"type": "object",
