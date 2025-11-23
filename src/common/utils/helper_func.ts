@@ -153,3 +153,18 @@ export async function getTimeStampSeries(url: string) {
     }
     return (await res.json()).data.result;
 }
+
+export async function fetchRecommendation(url: string) {
+  
+  return fetch(url)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            return res.json()
+        })
+        .then((data) => {
+            return data.data
+
+        })
+}
