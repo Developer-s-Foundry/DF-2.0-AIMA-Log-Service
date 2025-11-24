@@ -1,35 +1,27 @@
-import { IsNumber, IsString } from "class-validator"
+import {IsNumber, IsString } from "class-validator"
 
 
-export class logData {
+export class MetricData {
+
+    @IsNumber()
+    project_id: number
+    
+    @IsString()
+    type!: string
+
     @IsString()
     metric_name!: string
 
     @IsString()
-    event_id: string
-    
-    time_stamp: Date
+    time_stamp!: Date
 
-    @IsString()
-    metric_type: string
-
-    @IsString()
-    source: string
-
-    @IsString()
-    version: string
-
-    @IsString()
-    labels: string | string[] | undefined
-
+    metric!: any 
 }
 
 export interface QueryData {
     pageNumber: number
     pageLimit: number
-    metric_type?: string
     metric_name?: string
-    source?: string
 }
 
 export enum timeDifference {
@@ -44,4 +36,21 @@ export interface metricPatialData {
     metricName: string,
     metricType: string,
     label?: string | Array<string>
+}
+
+export interface ProjectData {
+
+    id: number,
+    
+    name: string,
+    
+    description: string,
+    
+    base_url: string
+
+    prometheus_metric_url: string
+    
+    team_id: number
+
+    owner_id: number
 }

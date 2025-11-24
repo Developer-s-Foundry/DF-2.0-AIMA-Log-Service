@@ -1,42 +1,38 @@
 import { timeDifference } from './../common/types/interface';
 import { LogError } from "../common/types/error_types";
-import { LogRepo } from "../repositories/log_repo";
+import { MetricRepo } from "../repositories/metrics_repo";
 import { Controller, Get, Query, Route, Tags } from "tsoa";
-import { Log } from '../models/entities/log';
+import { Metric } from '../models/entities/metric';
 
 
 @Route('logs')
 export class LogController extends Controller {
-    private logRepository:  LogRepo;
+    private MetricRepository:  MetricRepo;
 
     constructor() {
         super();
-        this.logRepository =  new LogRepo();
+        this.MetricRepository =  new MetricRepo();
     }
    
-    @Get('/search-logs')
+    @Get('/search-metrics')
     @Tags('Logs')
-    public async getLogs(
+    public async getMetrics(
         @Query() time_difference?: timeDifference,
         @Query() page?: number,
         @Query() metric_name?: string,
-        @Query() metric_type?: string,
-        @Query() source?: string,
         @Query() limit?: number,
-    ) : Promise<Log[]> {
+    ) : Promise<Metric[]> {
         
         const pageLimit = limit || 10
         const pageNumber = page || 0;
         const timeDifferences = time_difference || timeDifference.oneHourAgo;
         const queryData = {
             metric_name, 
-            metric_type,
-            source,
             pageNumber, 
             pageLimit, 
         }
 
-        return await this.logRepository.getLogs(queryData, timeDifferences)
+        return await this.MetricRepository.getMetrics(queryData, timeDifferences)
 
     }
 }

@@ -7,16 +7,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"SeverityLevel": {
-				"enum": [
-					"low",
-					"medium",
-					"high",
-					"critical"
-				],
-				"type": "string"
-			},
-			"Log": {
+			"Metric": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -36,21 +27,13 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"labels": {},
-					"metric_type": {
-						"type": "string"
+					"metric": {},
+					"value": {
+						"type": "number",
+						"format": "double"
 					},
-					"version": {
-						"type": "string"
-					},
-					"source": {
-						"type": "string"
-					},
-					"incident": {
-						"$ref": "#/components/schemas/Incident"
-					},
-					"event": {
-						"$ref": "#/components/schemas/Event"
+					"project": {
+						"$ref": "#/components/schemas/Project"
 					}
 				},
 				"required": [
@@ -59,83 +42,65 @@
 					"update_at",
 					"metric_name",
 					"time_stamp",
-					"labels",
-					"metric_type",
-					"version",
-					"source",
-					"incident",
-					"event"
+					"metric",
+					"value",
+					"project"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Incident": {
+			"Project": {
 				"properties": {
 					"id": {
-						"type": "string"
-					},
-					"created_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"update_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"severity": {
-						"$ref": "#/components/schemas/SeverityLevel"
-					},
-					"ocurrence": {
 						"type": "number",
 						"format": "double"
 					},
-					"logs": {
-						"items": {
-							"$ref": "#/components/schemas/Log"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"id",
-					"created_at",
-					"update_at",
-					"severity",
-					"ocurrence",
-					"logs"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Event": {
-				"properties": {
-					"id": {
+					"name": {
 						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"base_url": {
+						"type": "string"
+					},
+					"prometheus_metric_url": {
+						"type": "string"
+					},
+					"team_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"owner_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
 					},
 					"created_at": {
 						"type": "string",
 						"format": "date-time"
 					},
-					"update_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"event_id": {
-						"type": "string"
-					},
-					"logs": {
+					"metrics": {
 						"items": {
-							"$ref": "#/components/schemas/Log"
+							"$ref": "#/components/schemas/Metric"
 						},
 						"type": "array"
 					}
 				},
 				"required": [
 					"id",
+					"name",
+					"description",
+					"base_url",
+					"prometheus_metric_url",
+					"team_id",
+					"owner_id",
+					"updated_at",
 					"created_at",
-					"update_at",
-					"event_id",
-					"logs"
+					"metrics"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -162,9 +127,9 @@
 		"contact": {}
 	},
 	"paths": {
-		"/logs/search-logs": {
+		"/logs/search-metrics": {
 			"get": {
-				"operationId": "GetLogs",
+				"operationId": "GetMetrics",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -172,7 +137,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/Log"
+										"$ref": "#/components/schemas/Metric"
 									},
 									"type": "array"
 								}
@@ -205,22 +170,6 @@
 					{
 						"in": "query",
 						"name": "metric_name",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "metric_type",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "source",
 						"required": false,
 						"schema": {
 							"type": "string"

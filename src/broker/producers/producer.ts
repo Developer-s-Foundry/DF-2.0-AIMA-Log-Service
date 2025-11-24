@@ -23,7 +23,7 @@ export const publishMsg = (msg: string) => {
             channel.assertQueue(APP_CONFIGS.QUEUE_NAME_RMQ_2, {durable: true})
             .then(() => {
                 console.log('queue asserted successfully');
-            }).catch(((error) => {
+            }).catch(((error: any) => {
                 console.log(`unable to create a Queue${error}`);
             }));
             channel.assertQueue(queue2, {durable: true})
@@ -34,10 +34,10 @@ export const publishMsg = (msg: string) => {
                 console.log(`bind to queue successfully`);
                 channel.publish(
                 exchangeName, routingKey, Buffer.from(msg))
-            }).catch(((error) => {
+            }).catch(((error: any) => {
                 console.log(`unable to bind to a Queue${error}`);
             }));  
-        }).catch((error) => {
+        }).catch((error: any) => {
             console.log(`unable to create exchange ${error}`);
         })      
     }).catch(error => {

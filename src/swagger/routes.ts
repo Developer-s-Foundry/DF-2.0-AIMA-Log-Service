@@ -12,12 +12,7 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "SeverityLevel": {
-        "dataType": "refEnum",
-        "enums": ["low","medium","high","critical"],
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Log": {
+    "Metric": {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
@@ -25,37 +20,26 @@ const models: TsoaRoute.Models = {
             "update_at": {"dataType":"datetime","required":true},
             "metric_name": {"dataType":"string","required":true},
             "time_stamp": {"dataType":"datetime","required":true},
-            "labels": {"dataType":"any","required":true},
-            "metric_type": {"dataType":"string","required":true},
-            "version": {"dataType":"string","required":true},
-            "source": {"dataType":"string","required":true},
-            "incident": {"ref":"Incident","required":true},
-            "event": {"ref":"Event","required":true},
+            "metric": {"dataType":"any","required":true},
+            "value": {"dataType":"double","required":true},
+            "project": {"ref":"Project","required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Incident": {
+    "Project": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"string","required":true},
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "description": {"dataType":"string","required":true},
+            "base_url": {"dataType":"string","required":true},
+            "prometheus_metric_url": {"dataType":"string","required":true},
+            "team_id": {"dataType":"double","required":true},
+            "owner_id": {"dataType":"double","required":true},
+            "updated_at": {"dataType":"datetime","required":true},
             "created_at": {"dataType":"datetime","required":true},
-            "update_at": {"dataType":"datetime","required":true},
-            "severity": {"ref":"SeverityLevel","required":true},
-            "ocurrence": {"dataType":"double","required":true},
-            "logs": {"dataType":"array","array":{"dataType":"refObject","ref":"Log"},"required":true},
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Event": {
-        "dataType": "refObject",
-        "properties": {
-            "id": {"dataType":"string","required":true},
-            "created_at": {"dataType":"datetime","required":true},
-            "update_at": {"dataType":"datetime","required":true},
-            "event_id": {"dataType":"string","required":true},
-            "logs": {"dataType":"array","array":{"dataType":"refObject","ref":"Log"},"required":true},
+            "metrics": {"dataType":"array","array":{"dataType":"refObject","ref":"Metric"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -82,30 +66,28 @@ export function RegisterRoutes(app: Router) {
 
 
     
-        const argsLogController_getLogs: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsLogController_getMetrics: Record<string, TsoaRoute.ParameterSchema> = {
                 time_difference: {"in":"query","name":"time_difference","ref":"timeDifference"},
                 page: {"in":"query","name":"page","dataType":"double"},
                 metric_name: {"in":"query","name":"metric_name","dataType":"string"},
-                metric_type: {"in":"query","name":"metric_type","dataType":"string"},
-                source: {"in":"query","name":"source","dataType":"string"},
                 limit: {"in":"query","name":"limit","dataType":"double"},
         };
-        app.get('/logs/search-logs',
+        app.get('/logs/search-metrics',
             ...(fetchMiddlewares<RequestHandler>(LogController)),
-            ...(fetchMiddlewares<RequestHandler>(LogController.prototype.getLogs)),
+            ...(fetchMiddlewares<RequestHandler>(LogController.prototype.getMetrics)),
 
-            async function LogController_getLogs(request: ExRequest, response: ExResponse, next: any) {
+            async function LogController_getMetrics(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsLogController_getLogs, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsLogController_getMetrics, request, response });
 
                 const controller = new LogController();
 
               await templateService.apiHandler({
-                methodName: 'getLogs',
+                methodName: 'getMetrics',
                 controller,
                 response,
                 next,
