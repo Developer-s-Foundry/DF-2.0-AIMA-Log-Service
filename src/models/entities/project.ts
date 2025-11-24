@@ -1,6 +1,5 @@
 import { Entity, OneToMany, Column, UpdateDateColumn, PrimaryColumn, CreateDateColumn} from "typeorm";
-import { BaseModel } from './base_model';
-import { Metrics } from "./metric";
+import { Metric } from "./metric";
 
 
 @Entity()
@@ -33,7 +32,7 @@ export class Project {
     @CreateDateColumn({type: 'timestamptz'})
     created_at! : Date
 
-    @OneToMany(() => Metrics, (metric) => metric.project)
-    metrics!: Metrics[]
+    @OneToMany(() => Metric, (metric) => metric.project)
+    metrics!: Metric[]
 
 }

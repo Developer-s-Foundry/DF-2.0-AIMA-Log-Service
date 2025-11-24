@@ -11,14 +11,14 @@ import { ProjectRepository } from './project_repo';
 export class MetricRepo {
 
     private projectRepo: ProjectRepository
-    private logRepository:  Repository<Metric>
+    private MetricRepository:  Repository<Metric>
     
     constructor() {
-        this.logRepository = AppDataSource.getRepository(Metric);
+        this.MetricRepository = AppDataSource.getRepository(Metric);
         this.projectRepo = new ProjectRepository();
     }
     
-    async createLog(MetricData: MetricData ): Promise<Metric> {
+    async createMetric(MetricData: MetricData ): Promise<Metric> {
         // console.log(MetricData)
         if (!MetricData) {
             throw new Error('log data missing')
@@ -26,7 +26,7 @@ export class MetricRepo {
         // create project using project_id
 
 
-        let new_log = this.logRepository.create({...MetricData});
+        let new_log = this.MetricRepository.create({...MetricData});
 
         // save to database
         const foundProject = await this.projectRepo.find(MetricData.project_id);
@@ -34,12 +34,12 @@ export class MetricRepo {
             throw new Error('project not found')
         }
         new_log.project = foundProject;
-        await this.logRepository.save(new_log);
+        await this.MetricRepository.save(new_log);
         return new_log;
     }
 
-    async getLogs(data: QueryData, timeData: timeDifference): Promise<Metric[]> {
-        const {source, metric_type,
+    async getMetrics(data: QueryData, timeData: timeDifference): Promise<Metric[]> {
+        const {
                 metric_name, pageLimit, pageNumber} = data;
         
         let startDate;
@@ -76,19 +76,11 @@ export class MetricRepo {
                 break;
         }
 
-        const queryBuild = this.logRepository.createQueryBuilder().where(`
+        const queryBuild = this.MetricRepository.createQueryBuilder().where(`
             time_stamp BETWEEN :startDate and :endDate`, {startDate, endDate}
             )
-
-        if (source) {
-            queryBuild.andWhere(`source = :source`, {source})
-        }
         if (metric_name) {
             queryBuild.andWhere(`metric_name = :metric_name`, {metric_name})
-        }
-
-        if (metric_type) {
-            queryBuild.andWhere(`metric_type = :metric_type`, {metric_type})
         }
     
         const logs = await queryBuild.skip(pageNumber)

@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne,  } from "typeorm";
-import { BaseModel } from './base_model';
+import { BaseModel } from "./base_model";
 import { Project } from "./project";
 
 
@@ -21,7 +21,7 @@ export class Metric extends BaseModel{
     @Column({type: 'jsonb'})
     metric!: any
 
-    @Column()
+    @Column('float')
     value: number
 
     // @Column({type: 'jsonb'})

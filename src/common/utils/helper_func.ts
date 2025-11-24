@@ -155,7 +155,8 @@ export async function getTimeStampSeries(url: string) {
 }
 
 export async function fetchRecommendation(url: string) {
-  
+  console.log('fetch recommendation')
+  console.log(url)
   return fetch(url)
         .then((res) => {
             if (!res.ok) {
@@ -164,7 +165,6 @@ export async function fetchRecommendation(url: string) {
             return res.json()
         })
         .then((data) => {
-            return data.data
-
+            return data
         })
 }

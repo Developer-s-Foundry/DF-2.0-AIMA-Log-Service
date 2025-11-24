@@ -7,7 +7,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"Log": {
+			"Metric": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -20,9 +20,6 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"type": {
-						"type": "string"
-					},
 					"metric_name": {
 						"type": "string"
 					},
@@ -30,9 +27,11 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"labels": {},
 					"metric": {},
-					"extras": {},
+					"value": {
+						"type": "number",
+						"format": "double"
+					},
 					"project": {
 						"$ref": "#/components/schemas/Project"
 					}
@@ -41,12 +40,10 @@
 					"id",
 					"created_at",
 					"update_at",
-					"type",
 					"metric_name",
 					"time_stamp",
-					"labels",
 					"metric",
-					"extras",
+					"value",
 					"project"
 				],
 				"type": "object",
@@ -86,9 +83,9 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"logs": {
+					"metrics": {
 						"items": {
-							"$ref": "#/components/schemas/Log"
+							"$ref": "#/components/schemas/Metric"
 						},
 						"type": "array"
 					}
@@ -103,7 +100,7 @@
 					"owner_id",
 					"updated_at",
 					"created_at",
-					"logs"
+					"metrics"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -130,9 +127,9 @@
 		"contact": {}
 	},
 	"paths": {
-		"/logs/search-logs": {
+		"/logs/search-metrics": {
 			"get": {
-				"operationId": "GetLogs",
+				"operationId": "GetMetrics",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -140,7 +137,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/Log"
+										"$ref": "#/components/schemas/Metric"
 									},
 									"type": "array"
 								}
@@ -173,22 +170,6 @@
 					{
 						"in": "query",
 						"name": "metric_name",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "metric_type",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "source",
 						"required": false,
 						"schema": {
 							"type": "string"

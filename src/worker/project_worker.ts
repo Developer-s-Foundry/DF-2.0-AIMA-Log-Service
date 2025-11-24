@@ -21,7 +21,10 @@ export async function projectWorker() {
         const allRecommendation : any = {}
         // loop through data
         // save each recommendation in an array
-        metricsMetadata.forEach(async (metricValue, index) => {
+        for (const [metricName, metricValue] of Object.entries(metricsMetadata)) {
+            // console.log(`key: ${metricName}`)
+            
+
             let metricData = {
                     type: '',
                     metric_name: '',
@@ -30,42 +33,52 @@ export async function projectWorker() {
                     value: 0,
                     project_id: 0
             }
-            const allSeries = `${prometheusServerUrl}${metricValue}`;
+            const allSeries = `${prometheusServerUrl}${metricName}`;
             
-            metricData.metric_name = Object.keys(metricValue)[0];
-            const [type] = Object.values(metricValue)[0];
+            metricData.metric_name = metricName;
+             console.log(`key: ${metricData.metric_name}`)
+            const type = Object.values(metricValue[0])[0];
+            console.log(type);
             metricData.type = type;
             const unformattedData =  await getTimeStampSeries(allSeries);
-            metricData.metric = unformattedData[0].metric;
-            metricData.value = unformattedData[0].value[1];
-            metricData.time_stamp = unformattedData[0].value[0] && new Date(unformattedData[0].value[0])
-            metricData.project_id = Number(job.data.id);
-            // create metric and save to database
-            metricRepo.createLog(metricData);
-            console.log('persisted to database')
+            console.log(unformattedData);
+            unformattedData.forEach((metrics: any) => {
+
+                const values: any = Object.values(metrics);
+                metricData.metric = values[0];
+                metricData.value = values[1][1]
+                metricData.time_stamp = values[1][0] && new Date(values[1][0] * 1000);
+                metricData.project_id = Number(job.data.id);
+
+                // create metric and save to database
+                metricRepo.createMetric(metricData);
+                console.log('persisted to database')
+            });
+           
              // based on type, give a recommendation
              switch (type) {
                 case 'counter':
+                    const total = await fetchRecommendation(`${prometheusServerUrl}sum(increase(${metricData.metric_name}[5m]))`)
                     const counterDataFormat = {
-                         [`total_${metricData.metric_name} in 5m`]: fetchRecommendation(`${prometheusServerUrl}sum(increase(${metricData.metric_name}[5m]))`), 
+                         [`total_${metricData.metric_name} in 5m`]: total, 
 
-                         [`request_rate_${metricData.metric_name} in 5m`]: fetchRecommendation(`${prometheusServerUrl}sum(rate(${metricData.metric_name}[5m]))`)
+                         [`request_rate_${metricData.metric_name} in 5m`]: await fetchRecommendation(`${prometheusServerUrl}sum(rate(${metricData.metric_name}[5m]))`)
                     } 
-                    allRecommendation['counter'] = {count: counterDataFormat  }           
+                    allRecommendation['counter'] = {counter: counterDataFormat  }           
                     break;
 
                  case 'gauge':
                     const gaugeDataFormat = {
-                         [`value over the_last_5_minutes_${metricData.metric_name} in 5m`]: fetchRecommendation(`${prometheusServerUrl}avg_over_time(${metricData.metric_name}[5m]))`),
+                         [`value over the_last_5_minutes_${metricData.metric_name} in 5m`]: await fetchRecommendation(`${prometheusServerUrl}avg_over_time(${metricData.metric_name}[5m])`),
 
-                        [`value over the_last_5_minutes_${metricData.metric_name} in 5m`]: fetchRecommendation(`${prometheusServerUrl}max_over_time(${metricData.metric_name}[5m]))`)
+                        [`value over the_last_5_minutes_${metricData.metric_name} in 5m`]: await fetchRecommendation(`${prometheusServerUrl}max_over_time(${metricData.metric_name}[5m])`)
                     } 
                     allRecommendation['gauge'] = {gauge: gaugeDataFormat}
                     break;
 
                 case 'histogram':
                 const histogramDataFormat = {
-                         [`95th percentile latency_${metricData.metric_name}_bucket in 5m`]: fetchRecommendation(`${prometheusServerUrl}histogram_quantile(0.95, sum(rate(${metricData.metric_name}_bucket[5m])) by (le))`)
+                         [`95th percentile latency_${metricData.metric_name}_bucket in 5m`]: await fetchRecommendation(`${prometheusServerUrl}histogram_quantile(0.95, sum(rate(${metricData.metric_name}_bucket[5m])) by (le))`)
                     } 
                     allRecommendation['histogram'] = {histogram: histogramDataFormat}
                 break;
@@ -74,16 +87,17 @@ export async function projectWorker() {
                     allRecommendation['metrics_type'] = {metric_type: 'not found'}
                     break;
              }
-            
-        })
-    
-        // publish to broker when loop ends
+
+              // publish to broker when loop ends
         publishMsg(JSON.stringify(allRecommendation));
+        console.log('published to broker')
+            
+        }
+    
+       
 
     }, {connection: redisConnection})
 
     worker.on('completed', (job) => console.log(`Job ${job.id} completed`));
     worker.on('failed', (job, err) => console.error(`Job ${job?.id} failed:`, err))
-
-
 }
