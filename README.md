@@ -11,7 +11,7 @@ This project was built to enable storing metrics scraped by prometheus based on 
 
 ## 🛠️ Features
 
-- metrics search — enable querying logs using parameters stated on the API docs 
+- metrics search — enable querying metrics using parameters stated on the API docs 
 
 ---
 
@@ -26,10 +26,20 @@ This project was built to enable storing metrics scraped by prometheus based on 
 ---
 
 ## Application flow
-- Consumes data published by rabbitmq
-- Cron job fetches data every minute from the database and adds to a queue
+
+ ```bash
+Consumes data published by rabbitmq
+
+ ```bash
+Cron job fetches data every minute from the database and adds to a queue
+
+```bash
 - Hosted prometheus url of user is extracted from each data on the queue
+
+```bash
 - Prometheus url is queried for sets of metrics and data around it
+
+```bash
 - Metric data is stored in database as well as published to rabbitmq
 
 ## 🚀 How to Get Started
