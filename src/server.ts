@@ -24,7 +24,7 @@ import { projectWorker } from "./worker/project_worker";
     );
   });
   
-  app.use('/logs', logMiddleware)
+  app.use('/Metrics', logMiddleware)
 
   RegisterRoutes(app)
 
