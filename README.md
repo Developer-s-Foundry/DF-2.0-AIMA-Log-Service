@@ -1,11 +1,11 @@
 # Metrics Management Microservice
 
-This is a metrics management service that stores metrics scraped by prometheus from prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker.
+This is a metrics management service that stores metrics scraped by prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker.
 
 ---
 
 ## 📘 Overview
-This project was built to enable storing metrics scraped by prometheus from prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker.
+This project was built to enable storing metrics scraped by prometheus based on the services its monitoring. It filters, query prometheus and distributed a formatted data to a message broker.
 
 ---
 
@@ -24,6 +24,13 @@ This project was built to enable storing metrics scraped by prometheus from prom
 - node_cron
 
 ---
+
+## Application flow
+- Consumes data published by rabbitmq
+- Cron job fetches data every minute from the database and adds to a queue
+- Hosted prometheus url of user is extracted from each data on the queue
+- Prometheus url is queried for sets of metrics and data around it
+- Metric data is stored in database as well as published to rabbitmq
 
 ## 🚀 How to Get Started
 

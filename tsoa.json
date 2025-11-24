@@ -17,8 +17,7 @@
     "specVersion": 3,
     "servers": [
       {
-        "url": "https://df-2-0-aima-log-service.onrender.com/",
-        "description": "Production Server"
+        "url": "https://df-2-0-aima-metrics-service.onrender.com"
       }
     ]
   },
