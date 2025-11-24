@@ -1,6 +1,7 @@
-import { Entity, Column, ManyToOne,  } from "typeorm";
+import { Entity, Column, ManyToOne, JoinColumn,  } from "typeorm";
 import { BaseModel } from "./base_model";
 import { Project } from "./project";
+import { join } from "path/posix";
 
 
 @Entity()
@@ -27,8 +28,10 @@ export class Metric extends BaseModel{
     // @Column({type: 'jsonb'})
     // extras!: any
 
+    @Column()
+    project_id: number
 
-
+    @JoinColumn({ name: "project_id", referencedColumnName: "id" })
     @ManyToOne(() => Project, (project) => project.metrics)
     project!: Project
 }

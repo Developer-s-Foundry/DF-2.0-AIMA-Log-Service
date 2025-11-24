@@ -22,6 +22,7 @@ export interface QueryData {
     pageNumber: number
     pageLimit: number
     metric_name?: string
+    project_id?: string
 }
 
 export enum timeDifference {

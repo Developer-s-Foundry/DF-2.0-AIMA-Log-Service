@@ -4,7 +4,7 @@
 import type { TsoaRoute } from '@tsoa/runtime';
 import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { LogController } from './../controller/log_controller';
+import { LogController } from './../controller/metric_controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
 
@@ -22,6 +22,7 @@ const models: TsoaRoute.Models = {
             "time_stamp": {"dataType":"datetime","required":true},
             "metric": {"dataType":"any","required":true},
             "value": {"dataType":"double","required":true},
+            "project_id": {"dataType":"double","required":true},
             "project": {"ref":"Project","required":true},
         },
         "additionalProperties": false,
@@ -67,12 +68,13 @@ export function RegisterRoutes(app: Router) {
 
     
         const argsLogController_getMetrics: Record<string, TsoaRoute.ParameterSchema> = {
+                project_id: {"in":"path","name":"project_id","required":true,"dataType":"string"},
                 time_difference: {"in":"query","name":"time_difference","ref":"timeDifference"},
                 page: {"in":"query","name":"page","dataType":"double"},
                 metric_name: {"in":"query","name":"metric_name","dataType":"string"},
                 limit: {"in":"query","name":"limit","dataType":"double"},
         };
-        app.get('/logs/search-metrics',
+        app.get('/metrics/search-metrics/:project_id',
             ...(fetchMiddlewares<RequestHandler>(LogController)),
             ...(fetchMiddlewares<RequestHandler>(LogController.prototype.getMetrics)),
 
