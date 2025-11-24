@@ -124,7 +124,7 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "df-aimas-log-service",
+		"title": "df-aimas-metrics-service",
 		"version": "1.0.0",
 		"license": {
 			"name": "ISC"
