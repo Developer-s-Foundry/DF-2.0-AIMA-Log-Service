@@ -32,6 +32,10 @@
 						"type": "number",
 						"format": "double"
 					},
+					"project_id": {
+						"type": "number",
+						"format": "double"
+					},
 					"project": {
 						"$ref": "#/components/schemas/Project"
 					}
@@ -44,6 +48,7 @@
 					"time_stamp",
 					"metric",
 					"value",
+					"project_id",
 					"project"
 				],
 				"type": "object",
@@ -127,7 +132,7 @@
 		"contact": {}
 	},
 	"paths": {
-		"/logs/search-metrics": {
+		"/metrics/search-metrics/{project_id}": {
 			"get": {
 				"operationId": "GetMetrics",
 				"responses": {
@@ -146,10 +151,18 @@
 					}
 				},
 				"tags": [
-					"Logs"
+					"Metrics"
 				],
 				"security": [],
 				"parameters": [
+					{
+						"in": "path",
+						"name": "project_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
 					{
 						"in": "query",
 						"name": "time_difference",

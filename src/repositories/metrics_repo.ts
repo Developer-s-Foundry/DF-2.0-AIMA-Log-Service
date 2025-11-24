@@ -40,7 +40,7 @@ export class MetricRepo {
 
     async getMetrics(data: QueryData, timeData: timeDifference): Promise<Metric[]> {
         const {
-                metric_name, pageLimit, pageNumber} = data;
+                metric_name, pageLimit, pageNumber, project_id} = data;
         
         let startDate;
         const endDate = new Date();
@@ -79,9 +79,12 @@ export class MetricRepo {
         const queryBuild = this.MetricRepository.createQueryBuilder().where(`
             time_stamp BETWEEN :startDate and :endDate`, {startDate, endDate}
             )
+            .andWhere(`project_id = :project_id`, {project_id})
+
         if (metric_name) {
             queryBuild.andWhere(`metric_name = :metric_name`, {metric_name})
         }
+
     
         const logs = await queryBuild.skip(pageNumber)
             .take(pageLimit)

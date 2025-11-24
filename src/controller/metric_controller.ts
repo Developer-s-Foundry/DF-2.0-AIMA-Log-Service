@@ -1,11 +1,11 @@
 import { timeDifference } from './../common/types/interface';
 import { LogError } from "../common/types/error_types";
 import { MetricRepo } from "../repositories/metrics_repo";
-import { Controller, Get, Query, Route, Tags } from "tsoa";
+import { Controller, Get, Query, Route, Tags, Path } from "tsoa";
 import { Metric } from '../models/entities/metric';
 
 
-@Route('logs')
+@Route('metrics')
 export class LogController extends Controller {
     private MetricRepository:  MetricRepo;
 
@@ -14,9 +14,10 @@ export class LogController extends Controller {
         this.MetricRepository =  new MetricRepo();
     }
    
-    @Get('/search-metrics')
-    @Tags('Logs')
+    @Get('/search-metrics/:project_id')
+    @Tags('Metrics')
     public async getMetrics(
+        @Path('project_id') project_id: string,
         @Query() time_difference?: timeDifference,
         @Query() page?: number,
         @Query() metric_name?: string,
@@ -29,7 +30,8 @@ export class LogController extends Controller {
         const queryData = {
             metric_name, 
             pageNumber, 
-            pageLimit, 
+            pageLimit,
+            project_id
         }
 
         return await this.MetricRepository.getMetrics(queryData, timeDifferences)

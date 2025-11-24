@@ -1,17 +1,17 @@
-# Log Management Microservice
+# Metrics Management Microservice
 
-A system that stores metric-logs scraped by prometheus.
+This is a metrics management service that stores metrics scraped by prometheus from prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker.
 
 ---
 
 ## 📘 Overview
-This project was built to enable storing logs for a longer period of time for history and analysis 
+This project was built to enable storing metrics scraped by prometheus from prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker.
 
 ---
 
 ## 🛠️ Features
 
-- logs search — enable querying logs using parameters stated on the API docs 
+- metrics search — enable querying logs using parameters stated on the API docs 
 
 ---
 
@@ -20,7 +20,8 @@ This project was built to enable storing logs for a longer period of time for hi
 - Expressjs
 - Postgres
 - Bullmq
-- RabbitMq 
+- RabbitMq
+- node_cron
 
 ---
 
@@ -30,11 +31,11 @@ Follow these steps to set up and run the project locally:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Log-Service
+   https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Metrics-Service
 
 2. **navigate into the project directory**
     ```bash
-    cd DF-2.0-AIMA-Log-Service
+    cd DF-2.0-AIMA-Metrics-Service
 
 3. **install your dependencies**
     ```bash
@@ -42,7 +43,7 @@ Follow these steps to set up and run the project locally:
 
 4. **configure your environment variable using the .env.example file as a template**
     ```bash
-    cat .env.example
+    copy .env.example into .env
 
 5. **generate your migrations**
     ```bash
@@ -58,7 +59,7 @@ Follow these steps to set up and run the project locally:
 
 8. **go to url/docs to view API docs**
     ```bash
-    http://localhost:port/docs
+    http://localhost:port-number/docs
 
 
 ---
