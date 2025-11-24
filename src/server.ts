@@ -27,7 +27,7 @@ import { projectWorker } from "./worker/project_worker";
 
   app.listen(APP_CONFIGS.SERVER_PORT, async () => {
     console.log(`Server running on port ${APP_CONFIGS.SERVER_PORT}`);
-    // await ProjectJob();
-    // await projectWorker();
+    await ProjectJob();
+    await projectWorker();
   });
 })();
