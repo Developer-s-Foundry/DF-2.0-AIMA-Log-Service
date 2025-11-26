@@ -88,6 +88,8 @@ export async function projectWorker() {
                     break;
              }
 
+             allRecommendation['project_id'] = {project_id: metricData.project_id}
+
               // publish to broker when loop ends
         publishMsg(JSON.stringify(allRecommendation));
         console.log('published to broker')
