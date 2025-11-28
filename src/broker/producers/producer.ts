@@ -15,9 +15,10 @@ export function PubToNotification (msg: string) {
         }
         channel.assertQueue(notifiQueue, {durable: true})
         .then(() => {
-            console.log(`${notifiQueue} has been created`)
+            console.log(`${notifiQueue} has been created`);
         })
-        channel.sendToQueue(notifiQueue, Buffer.from(msg))
+        channel.sendToQueue(notifiQueue, Buffer.from(msg));
+        console.log('message sent to notification queue')
     }).catch((error) => {
         console.log(`failed to publish to queue ${error.message}`)
     })

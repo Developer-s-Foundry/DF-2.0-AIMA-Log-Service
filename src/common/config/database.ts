@@ -21,6 +21,9 @@ export const AppDataSource = new DataSource({
             ca: fs.readFileSync(path.resolve(__dirname, '../../../ca.pem')).toString(),
                 rejectUnauthorized: true,
         },
+    extra: {
+        max: 10
+    }
 })
 
 export const dbInitialization = async () => {

@@ -42,7 +42,7 @@ export async function projectWorker() {
             metricData.type = type;
             const unformattedData =  await getTimeStampSeries(allSeries);
             console.log(unformattedData);
-            unformattedData.forEach((metrics: any) => {
+            unformattedData.forEach( async(metrics: any) => {
 
                 const values: any = Object.values(metrics);
                 metricData.metric = values[0];
@@ -51,7 +51,8 @@ export async function projectWorker() {
                 metricData.project_id = Number(job.data.id);
 
                 // create metric and save to database
-                const savedMetrics = metricRepo.createMetric(metricData);
+                const savedMetrics = await metricRepo.createMetric(metricData);
+                console.log(savedMetrics)
                 PubToNotification(JSON.stringify(savedMetrics))
                 // publish to notificationQueue
 
@@ -97,9 +98,7 @@ export async function projectWorker() {
         publishMsg(JSON.stringify(allRecommendation));
         console.log('published to broker')
             
-        }
-    
-       
+        }      
 
     }, {connection: redisConnection})
 
