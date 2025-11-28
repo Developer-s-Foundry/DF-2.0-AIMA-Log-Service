@@ -26,16 +26,16 @@ export class MetricRepo {
         // create project using project_id
 
 
-        let new_log = this.MetricRepository.create({...MetricData});
+        let new_metrics = this.MetricRepository.create({...MetricData});
 
         // save to database
         const foundProject = await this.projectRepo.find(MetricData.project_id);
         if(!foundProject) {
             throw new Error('project not found')
         }
-        new_log.project = foundProject;
-        await this.MetricRepository.save(new_log);
-        return new_log;
+        new_metrics.project = foundProject;
+        await this.MetricRepository.save(new_metrics);
+        return new_metrics;
     }
 
     async getMetrics(data: QueryData, timeData: timeDifference): Promise<Metric[]> {
