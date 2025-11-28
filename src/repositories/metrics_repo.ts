@@ -34,8 +34,7 @@ export class MetricRepo {
             throw new Error('project not found')
         }
         new_metrics.project = foundProject;
-        await this.MetricRepository.save(new_metrics);
-        return new_metrics;
+        return await this.MetricRepository.save(new_metrics);
     }
 
     async getMetrics(data: QueryData, timeData: timeDifference): Promise<Metric[]> {

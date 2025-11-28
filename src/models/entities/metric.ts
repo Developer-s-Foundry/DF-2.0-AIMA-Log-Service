@@ -1,7 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn,  } from "typeorm";
 import { BaseModel } from "./base_model";
 import { Project } from "./project";
-import { join } from "path/posix";
 
 
 @Entity()
