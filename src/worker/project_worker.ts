@@ -3,7 +3,7 @@ import { redisConnection } from "../common/config/bullmq";
 import { APP_CONFIGS } from "../common/config";
 import { fetchRecommendation, getFullMetricsData, getTimeStampSeries} from "../common/utils/helper_func";
 import { MetricRepo } from "../repositories/metrics_repo";
-import { publishMsg } from "../broker/producers/producer";
+import { publishMsg, PubToNotification } from "../broker/producers/producer";
 
 
 
@@ -51,7 +51,10 @@ export async function projectWorker() {
                 metricData.project_id = Number(job.data.id);
 
                 // create metric and save to database
-                metricRepo.createMetric(metricData);
+                const savedMetrics = metricRepo.createMetric(metricData);
+                PubToNotification(JSON.stringify(savedMetrics))
+                // publish to notificationQueue
+
                 console.log('persisted to database')
             });
            

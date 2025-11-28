@@ -3,6 +3,28 @@ import { createChannel } from "../../common/config/rabbitmq";
 
 
 
+
+export function PubToNotification (msg: string) {
+    
+    const notifiQueue = APP_CONFIGS.QUEUE_NAME_RMQ;
+
+    createChannel()
+    .then((channel) => {
+        if (!channel) {
+            throw new Error('unable to create a channel');
+        }
+        channel.assertQueue(notifiQueue, {durable: true})
+        .then(() => {
+            console.log(`${notifiQueue} has been created`)
+        })
+        channel.sendToQueue(notifiQueue, Buffer.from(msg))
+    }).catch((error) => {
+        console.log(`failed to publish to queue ${error.message}`)
+    })
+} 
+
+
+
 export const publishMsg = (msg: string) => {
     const exchangeName = 'logData';
     const routingKey = 'logs'
