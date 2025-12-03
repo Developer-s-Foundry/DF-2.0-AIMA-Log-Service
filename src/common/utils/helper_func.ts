@@ -6,20 +6,6 @@ export const parseTimestamp = (timestamp: string, minutes: number) => {
     return newTimestamp.getTime() + (minutes * 60 * 1000)
 }
 
-export const parseData = (data: any) => {
-    return (
-        data.metric_name &&  typeof data.metric_name === 'string' &&
-        data.event_id &&  typeof data.project_id === 'string' &&
-        data.time_stamp && typeof data.time_stamp === 'string' &&
-        data.value &&  typeof data.value === 'number' &&
-        data.result_type &&  typeof data.result_type === 'string' &&
-        data.app &&  typeof data.source === 'string' &&
-        data.instance &&  typeof data.instance === 'string' &&
-        data. job &&  typeof data.job === 'string'
-    )
-}
-
-
 // const orderedKeys = ['year', 'month', 'day', 'hour', 'minute'] as const;
 // type TimeKeys = typeof orderedKeys[number];
 
@@ -34,7 +20,6 @@ export const parseData = (data: any) => {
 //     }
 //   }
 // }
-
 
 
  export function buildTimestamp({
@@ -123,4 +108,63 @@ export function extractData (modifiedData: any): metricPatialData {
           metricData.label = label
       }
       return metricData
+}
+
+
+// get the metrics according to metric name on the list item
+// publish to rabbitMq
+export function processItem (metricName: string, hostName: string) {
+    console.log(`processing item ${metricName}`)
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            fetch(`http://${hostName}/api/v1/query?query=${metricName}`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! Status: ${res.status}`);
+                    }
+                    resolve(res.json())
+                }).catch((error) => reject('unable to fetch metric data ' + error))
+        }, 2000);
+    })
+}
+// fetch metrics from prometeus api
+export async function getFullMetricsData(serverUrl: string): Promise<string[]> {
+    // get the list of available metrics in prometheus
+    // let  metricsList: Array<string>;
+    const endPoint: string = `https://${serverUrl}/api/v1/metadata`;
+
+    return fetch(endPoint)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            return res.json()
+        })
+        .then((data) => {
+            return data.data
+
+        })
+};
+
+export async function getTimeStampSeries(url: string) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    return (await res.json()).data.result;
+}
+
+export async function fetchRecommendation(url: string) {
+  console.log('fetch recommendation')
+  console.log(url)
+  return fetch(url)
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            return res.json()
+        })
+        .then((data) => {
+            return data
+        })
 }

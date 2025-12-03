@@ -13,3 +13,4 @@ export const redisConnection = new Redis({
 redisConnection.on('error', (error) =>  {
     console.log(error + ' happend in redis')
 })
+

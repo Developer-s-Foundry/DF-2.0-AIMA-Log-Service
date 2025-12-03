@@ -7,16 +7,7 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"SeverityLevel": {
-				"enum": [
-					"low",
-					"medium",
-					"high",
-					"critical"
-				],
-				"type": "string"
-			},
-			"Log": {
+			"Metric": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -36,21 +27,17 @@
 						"type": "string",
 						"format": "date-time"
 					},
-					"labels": {},
-					"metric_type": {
-						"type": "string"
+					"metric": {},
+					"value": {
+						"type": "number",
+						"format": "double"
 					},
-					"version": {
-						"type": "string"
+					"project_id": {
+						"type": "number",
+						"format": "double"
 					},
-					"source": {
-						"type": "string"
-					},
-					"incident": {
-						"$ref": "#/components/schemas/Incident"
-					},
-					"event": {
-						"$ref": "#/components/schemas/Event"
+					"project": {
+						"$ref": "#/components/schemas/Project"
 					}
 				},
 				"required": [
@@ -59,83 +46,66 @@
 					"update_at",
 					"metric_name",
 					"time_stamp",
-					"labels",
-					"metric_type",
-					"version",
-					"source",
-					"incident",
-					"event"
+					"metric",
+					"value",
+					"project_id",
+					"project"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Incident": {
+			"Project": {
 				"properties": {
 					"id": {
-						"type": "string"
-					},
-					"created_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"update_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"severity": {
-						"$ref": "#/components/schemas/SeverityLevel"
-					},
-					"ocurrence": {
 						"type": "number",
 						"format": "double"
 					},
-					"logs": {
-						"items": {
-							"$ref": "#/components/schemas/Log"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"id",
-					"created_at",
-					"update_at",
-					"severity",
-					"ocurrence",
-					"logs"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"Event": {
-				"properties": {
-					"id": {
+					"name": {
 						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"base_url": {
+						"type": "string"
+					},
+					"prometheus_metric_url": {
+						"type": "string"
+					},
+					"team_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"owner_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
 					},
 					"created_at": {
 						"type": "string",
 						"format": "date-time"
 					},
-					"update_at": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"event_id": {
-						"type": "string"
-					},
-					"logs": {
+					"metrics": {
 						"items": {
-							"$ref": "#/components/schemas/Log"
+							"$ref": "#/components/schemas/Metric"
 						},
 						"type": "array"
 					}
 				},
 				"required": [
 					"id",
+					"name",
+					"description",
+					"base_url",
+					"prometheus_metric_url",
+					"team_id",
+					"owner_id",
+					"updated_at",
 					"created_at",
-					"update_at",
-					"event_id",
-					"logs"
+					"metrics"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -154,7 +124,7 @@
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "df-aimas-log-service",
+		"title": "df-aimas-metrics-service",
 		"version": "1.0.0",
 		"license": {
 			"name": "ISC"
@@ -162,9 +132,9 @@
 		"contact": {}
 	},
 	"paths": {
-		"/logs/search-logs": {
+		"/metrics/search-metrics/{project_id}": {
 			"get": {
-				"operationId": "GetLogs",
+				"operationId": "GetMetrics",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -172,7 +142,7 @@
 							"application/json": {
 								"schema": {
 									"items": {
-										"$ref": "#/components/schemas/Log"
+										"$ref": "#/components/schemas/Metric"
 									},
 									"type": "array"
 								}
@@ -181,10 +151,18 @@
 					}
 				},
 				"tags": [
-					"Logs"
+					"Metrics"
 				],
 				"security": [],
 				"parameters": [
+					{
+						"in": "path",
+						"name": "project_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
 					{
 						"in": "query",
 						"name": "time_difference",
@@ -212,22 +190,6 @@
 					},
 					{
 						"in": "query",
-						"name": "metric_type",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
-						"name": "source",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "query",
 						"name": "limit",
 						"required": false,
 						"schema": {
@@ -241,16 +203,16 @@
 	},
 	"servers": [
 		{
-			"url": "/"
+			"url": "https://[object Object]/"
 		}
 	],
 	"tags": [
 		{
-			"name": "Logs",
-			"description": "search for logs according to defined query parameters",
+			"name": "Metrics",
+			"description": "This is a metrics management service that collects metric from prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker",
 			"externalDocs": {
-				"description": "Find out more about logs Query parameters",
-				"url": "https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Log-Service"
+				"description": "Find out more about Metric Management",
+				"url": "https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Metrics-Service"
 			}
 		}
 	]

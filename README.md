@@ -1,28 +1,49 @@
-# Log Management Microservice
-
-A system that stores metric-logs scraped by prometheus.
+# Metrics Management Microservice
+<p style="font-family: Verdana; font-size: 18px;">
+This is a metrics management service that stores metrics scraped by prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker.</p>
 
 ---
 
 ## 📘 Overview
-This project was built to enable storing logs for a longer period of time for history and analysis 
+<p style="font-family: Verdana; font-size: 18px;">
+This project was built to enable storing metrics scraped by prometheus based on the services its monitoring. It filters, query prometheus and distributed a formatted data to a message broker.</p>
 
 ---
 
 ## 🛠️ Features
 
-- logs search — enable querying logs using parameters stated on the API docs 
+<p style="font-family: Verdana; font-size: 18px;">
+Metrics search — enable querying metrics using parameters stated on the API docs </p>
 
 ---
 
 ## Tech Stack
-
-- Expressjs
-- Postgres
-- Bullmq
-- RabbitMq 
+<p style="font-family: Verdana; font-size: 18px;">
+<li style="font-family: Verdana; font-size: 18px;">Expressjs</li>
+<li style="font-family: Verdana; font-size: 18px;"> Postgres</li>
+<li style="font-family: Verdana; font-size: 18px;">Bullmq</li>
+<li style="font-family: Verdana; font-size: 18px;">RabbitMq</li>
+<li style="font-family: Verdana; font-size: 18px;">node_cron</li>
+</p>
 
 ---
+
+## Application flow
+<p style="font-family: Verdana; font-size: 18px;">
+1. Consumes data published by rabbitmq
+</p>
+<p style="font-family: Verdana; font-size: 18px;">
+2. Cron job fetches data every minute from the database and adds to a queue</p>
+
+<p style="font-family: Verdana; font-size: 18px;">
+3. Hosted prometheus url of user is extracted from each data on the queue</p>
+
+<p style="font-family: Verdana; font-size: 18px;">
+4. Prometheus url is queried for sets of metrics and the data around it</p>
+
+<p style="font-family: Verdana; font-size: 18px;">
+5. Metric data is stored in database as well as published to rabbitmq for consumption by other Microservices</p>
+
 
 ## 🚀 How to Get Started
 
@@ -30,11 +51,11 @@ Follow these steps to set up and run the project locally:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Log-Service
+   https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Metrics-Service
 
 2. **navigate into the project directory**
     ```bash
-    cd DF-2.0-AIMA-Log-Service
+    cd DF-2.0-AIMA-Metrics-Service
 
 3. **install your dependencies**
     ```bash
@@ -42,7 +63,7 @@ Follow these steps to set up and run the project locally:
 
 4. **configure your environment variable using the .env.example file as a template**
     ```bash
-    cat .env.example
+    copy .env.example into .env
 
 5. **generate your migrations**
     ```bash
@@ -58,7 +79,7 @@ Follow these steps to set up and run the project locally:
 
 8. **go to url/docs to view API docs**
     ```bash
-    http://localhost:port/docs
+    http://localhost:port-number/docs
 
 
 ---

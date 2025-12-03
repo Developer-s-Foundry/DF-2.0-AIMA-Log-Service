@@ -2,11 +2,11 @@ import expressConfig from "./common/config/express";
 import { APP_CONFIGS } from "./common/config/index";
 import express, { Response as ExResponse, Request as ExRequest } from "express";
 import { dbInitialization } from "./common/config/database";
-import { workerSystem } from "./worker/worker";
-import { consumeMsg } from "./broker/consumers/prom_data_consumer";
 import { RegisterRoutes } from './swagger/routes'
 import swaggerUi from "swagger-ui-express";
-import { logMiddleware } from "./Middleware/log_middleware";
+import { logMiddleware } from "./Middleware/metric_middleware";
+import { ProjectJob } from "./crons/metric_cron_job";
+import { projectWorker } from "./worker/project_worker";
 
 
 
@@ -21,13 +21,13 @@ import { logMiddleware } from "./Middleware/log_middleware";
     );
   });
   
-  app.use('/logs', logMiddleware)
+  app.use('/Metrics', logMiddleware)
 
   RegisterRoutes(app)
 
   app.listen(APP_CONFIGS.SERVER_PORT, async () => {
     console.log(`Server running on port ${APP_CONFIGS.SERVER_PORT}`);
-    // await consumeMsg();
-    // await workerSystem();
+    await ProjectJob();
+    await projectWorker();
   });
 })();

@@ -1,25 +1,38 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Entity, OneToMany, Column, UpdateDateColumn, PrimaryColumn, CreateDateColumn} from "typeorm";
+import { Metric } from "./metric";
 
-@Entity("projects")
-export default class ProjectModel {
-  @PrimaryColumn()
-  id!: number;
 
-  @Column()
-  name!: string;
+@Entity()
+export class Project {
 
-  @Column()
-  description!: string;
+    @PrimaryColumn()
+    id!: number
 
-  @Column({unique: true})
-  base_url!: string;
+    @Column()
+    name!: string
 
-  @Column({unique: true})
-  prometheus_metric_url!: string;
+    @Column()
+    description!: string
 
-  @Column()
-  team_id!: number;
+    @Column()
+    base_url: string
 
-  @Column()
-  owner_id!: number;
+    @Column()
+    prometheus_metric_url!: string
+
+    @Column()
+    team_id!: number
+
+    @Column()
+    owner_id: number
+
+    @UpdateDateColumn({type: 'timestamptz'})
+    updated_at!: Date
+
+    @CreateDateColumn({type: 'timestamptz'})
+    created_at! : Date
+
+    @OneToMany(() => Metric, (metric) => metric.project)
+    metrics!: Metric[]
+
 }

@@ -3,6 +3,28 @@ import { createChannel } from "../../common/config/rabbitmq";
 
 
 
+
+export function PubToNotification (msg: string) {
+    
+    const notifiQueue = APP_CONFIGS.QUEUE_NAME_RMQ;
+
+    createChannel()
+    .then((channel) => {
+        if (!channel) {
+            throw new Error('unable to create a channel');
+        }
+        channel.assertQueue(notifiQueue, {durable: true})
+        .then(() => {
+            console.log(`${notifiQueue} has been created`)
+        })
+        channel.sendToQueue(notifiQueue, Buffer.from(msg))
+    }).catch((error) => {
+        console.log(`failed to publish to queue ${error.message}`)
+    })
+} 
+
+
+
 export const publishMsg = (msg: string) => {
     const exchangeName = 'logData';
     const routingKey = 'logs'
@@ -23,7 +45,7 @@ export const publishMsg = (msg: string) => {
             channel.assertQueue(APP_CONFIGS.QUEUE_NAME_RMQ_2 as string, {durable: true})
             .then(() => {
                 console.log('queue asserted successfully');
-            }).catch(((error) => {
+            }).catch(((error: any) => {
                 console.log(`unable to create a Queue${error}`);
             }));
             channel.assertQueue(queue2, {durable: true})
@@ -34,10 +56,10 @@ export const publishMsg = (msg: string) => {
                 console.log(`bind to queue successfully`);
                 channel.publish(
                 exchangeName, routingKey, Buffer.from(msg))
-            }).catch(((error) => {
+            }).catch(((error: any) => {
                 console.log(`unable to bind to a Queue${error}`);
             }));  
-        }).catch((error) => {
+        }).catch((error: any) => {
             console.log(`unable to create exchange ${error}`);
         })      
     }).catch(error => {

@@ -5,18 +5,24 @@
   "spec": {
     "tags":  [
       {
-        "name": "Logs",
-        "description": "search for logs according to defined query parameters",
+        "name": "Metrics",
+        "description": "This is a metrics management service that collects metric from prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker",
         "externalDocs": {
-          "description": "Find out more about logs Query parameters",
-          "url": "https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Log-Service"
+          "description": "Find out more about Metric Management",
+          "url": "https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Metrics-Service"
         }
       }
     ],
     "outputDirectory": "./src/swagger",
-    "specVersion": 3
+    "specVersion": 3,
+    "servers": [
+      {
+        "url": "https://df-2-0-aima-metrics-service.onrender.com"
+      }
+    ]
   },
   "routes": {
     "routesDir": "./src/swagger"
   }
+  
 }

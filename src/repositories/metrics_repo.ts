@@ -1,44 +1,46 @@
-import { logData, QueryData, timeDifference} from './../common/types/interface';
+import { MetricData, QueryData, timeDifference} from '../common/types/interface';
 import { AppDataSource } from "../common/config/database";
-import { Log } from "../models/entities/log";
+import { Metric } from "../models/entities/metric";
 import { Repository } from 'typeorm';
-import { Event } from '../models/entities/event';
+import { ProjectRepository } from './project_repo';
 
 
 
 
 
-export class LogRepo {
+export class MetricRepo {
 
-    private eventRepo: Repository<Event>
-    private logRepository:  Repository<Log>
+    private projectRepo: ProjectRepository
+    private MetricRepository:  Repository<Metric>
     
     constructor() {
-        this.eventRepo = AppDataSource.getRepository(Event);
-        this.logRepository = AppDataSource.getRepository(Log);
+        this.MetricRepository = AppDataSource.getRepository(Metric);
+        this.projectRepo = new ProjectRepository();
     }
     
-    async createLog(logData: logData ): Promise<Log> {
-        // console.log(logData)
-        if (!logData) {
+    async createMetric(MetricData: MetricData ): Promise<Metric> {
+        // console.log(MetricData)
+        if (!MetricData) {
             throw new Error('log data missing')
         }
-        // create project with event_id
-        const new_event = this.eventRepo.create({event_id: logData.event_id});
-        await this.eventRepo.save(new_event)
-        // create logs, link with project
-        // construct new log data
-        const new_log = this.logRepository.create({...logData});
-        // save to database
-        new_log.event = new_event;
+        // create project using project_id
 
-        await this.logRepository.save(new_log);
-        return new_log;
+
+        let new_metrics = this.MetricRepository.create({...MetricData});
+
+        // save to database
+        const foundProject = await this.projectRepo.find(MetricData.project_id);
+        if(!foundProject) {
+            throw new Error('project not found')
+        }
+        new_metrics.project = foundProject;
+        await this.MetricRepository.save(new_metrics);
+        return new_metrics;
     }
 
-    async getLogs(data: QueryData, timeData: timeDifference): Promise<Log[]> {
-        const {source, metric_type,
-                metric_name, pageLimit, pageNumber} = data;
+    async getMetrics(data: QueryData, timeData: timeDifference): Promise<Metric[]> {
+        const {
+                metric_name, pageLimit, pageNumber, project_id} = data;
         
         let startDate;
         const endDate = new Date();
@@ -74,20 +76,15 @@ export class LogRepo {
                 break;
         }
 
-        const queryBuild = this.logRepository.createQueryBuilder().where(`
+        const queryBuild = this.MetricRepository.createQueryBuilder().where(`
             time_stamp BETWEEN :startDate and :endDate`, {startDate, endDate}
             )
+            .andWhere(`project_id = :project_id`, {project_id})
 
-        if (source) {
-            queryBuild.andWhere(`source = :source`, {source})
-        }
         if (metric_name) {
             queryBuild.andWhere(`metric_name = :metric_name`, {metric_name})
         }
 
-        if (metric_type) {
-            queryBuild.andWhere(`metric_type = :metric_type`, {metric_type})
-        }
     
         const logs = await queryBuild.skip(pageNumber)
             .take(pageLimit)
