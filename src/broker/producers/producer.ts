@@ -2,13 +2,13 @@ import { APP_CONFIGS } from "../../common/config";
 import { createChannel } from "../../common/config/rabbitmq";
 
 
-
+const channel = createChannel()
 
 export function PubToNotification (msg: string) {
     
     const notifiQueue = APP_CONFIGS.QUEUE_NAME_RMQ;
 
-    createChannel()
+    channel
     .then((channel) => {
         if (!channel) {
             throw new Error('unable to create a channel');
@@ -18,11 +18,11 @@ export function PubToNotification (msg: string) {
             console.log(`${notifiQueue} has been created`);
         })
         channel.sendToQueue(notifiQueue, Buffer.from(msg));
-        console.log('message sent to notification queue')
+        console.log('message sent to notification queue');
     }).catch((error) => {
         console.log(`failed to publish to queue ${error.message}`)
     })
-} 
+}
 
 
 
@@ -33,7 +33,7 @@ export const publishMsg = (msg: string) => {
 
     console.log(`publish: ${msg} to producer`)
 
-    createChannel()
+    channel
     .then((channel) => {
         if (!channel) {
         throw new Error('failed to create a channel')
@@ -56,7 +56,7 @@ export const publishMsg = (msg: string) => {
             .then(() => {
                 console.log(`bind to queue successfully`);
                 channel.publish(
-                exchangeName, routingKey, Buffer.from(msg))
+                exchangeName, routingKey, Buffer.from(msg));
             }).catch(((error: any) => {
                 console.log(`unable to bind to a Queue${error}`);
             }));  

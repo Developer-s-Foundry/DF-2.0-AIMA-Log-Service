@@ -28,7 +28,7 @@ import { consumeProjectMessages } from "./broker/consumers/project_consumer";
 
   app.listen(APP_CONFIGS.SERVER_PORT, async () => {
     console.log(`Server running on port ${APP_CONFIGS.SERVER_PORT}`);
-    // await consumeProjectMessages()
+    await consumeProjectMessages()
     await ProjectJob();
     await projectWorker();
   });
