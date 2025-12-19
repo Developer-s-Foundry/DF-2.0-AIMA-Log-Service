@@ -9,7 +9,7 @@ import { publishMsg, PubToNotification } from "../broker/producers/producer";
 
 export async function projectWorker() {
 
-    const metricRepo = new MetricRepo()
+    const metricRepo = new MetricRepo();
 
     const worker = new Worker(APP_CONFIGS.QUEUE_NAME, async (job) => {
         const prometheus_metric_url = job.data.prometheus_metric_url;

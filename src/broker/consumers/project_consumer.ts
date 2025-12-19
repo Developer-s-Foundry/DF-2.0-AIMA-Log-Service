@@ -10,7 +10,7 @@ export async function consumeProjectMessages() {
   await channel.assertQueue(queue, { durable: true });
   // console.log('I ran')
   channel.consume(queue, async (msg: any) => {
-    if (msg !== null) {
+    if (msg !== null) { 
       console.log('message is not null')
       const receivedMessage = msg.content.toString();
       const sentData = JSON.parse(msg.content);

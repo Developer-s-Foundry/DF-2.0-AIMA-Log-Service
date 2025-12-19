@@ -14,3 +14,47 @@ export const addJobsToQueue = async (Queue_obj: Queue, jobname: string, msg: {})
     }
    await Queue_obj.add(jobname, msg)
 }
+
+export async function clearQueueOnShutdown() {
+  console.log("\n🔄 Cleaning BullMQ queue before shutdown...");
+
+  try {
+    // Remove waiting + delayed
+    await projectQueue.drain(true);
+
+    // Clean other states
+   await projectQueue.clean(
+  60000, // 1 minute
+  1000, // max number of jobs to clean
+  'paused',
+);
+await projectQueue.clean(
+  60000, // 1 minute
+  1000, // max number of jobs to clean
+  'failed',
+);
+
+await projectQueue.clean(
+  60000, // 1 minute
+  1000, // max number of jobs to clean
+  'active',
+);
+    await projectQueue.clean(
+  60000, // 1 minute
+  1000, // max number of jobs to clean
+  'wait',
+);
+
+await projectQueue.clean(
+  60000, // 1 minute
+  1000, // max number of jobs to clean
+  'delayed',
+);
+ 
+
+    console.log("✅ Queue successfully cleared.");
+  } catch (err) {
+    console.error("❌ Failed to clean projectQueue:", err);
+  }
+}
+

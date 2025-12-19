@@ -1,7 +1,7 @@
 import { timeDifference } from './../common/types/interface';
-import { LogError } from "../common/types/error_types";
+// import { LogError } from "../common/types/error_types";
 import { MetricRepo } from "../repositories/metrics_repo";
-import { Controller, Get, Query, Route, Tags, Path } from "tsoa";
+import { Controller, Get, Query, Route, Path } from "tsoa";
 import { Metric } from '../models/entities/metric';
 
 
@@ -15,7 +15,6 @@ export class LogController extends Controller {
     }
    
     @Get('/search-metrics/:project_id')
-    @Tags('Metrics')
     public async getMetrics(
         @Path('project_id') project_id: string,
         @Query() time_difference?: timeDifference,

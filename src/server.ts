@@ -8,6 +8,8 @@ import { logMiddleware } from "./Middleware/metric_middleware";
 import { ProjectJob } from "./crons/metric_cron_job";
 import { projectWorker } from "./worker/project_worker";
 import { consumeProjectMessages } from "./broker/consumers/project_consumer";
+import { clearQueueOnShutdown } from "./queue/queue";
+import swaggerDoc from "./swagger/swagger.json"
 
 
 
@@ -18,7 +20,7 @@ import { consumeProjectMessages } from "./broker/consumers/project_consumer";
 
   app.use("/docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
     return res.send(
-      swaggerUi.generateHTML(await import("./swagger/swagger.json"))
+      swaggerUi.generateHTML(swaggerDoc)
     );
   });
   
@@ -32,4 +34,15 @@ import { consumeProjectMessages } from "./broker/consumers/project_consumer";
     await ProjectJob();
     await projectWorker();
   });
+
+ 
 })();
+ process.on("SIGINT", async () => {
+  await clearQueueOnShutdown();
+  process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+  await clearQueueOnShutdown();
+  process.exit(0);
+});

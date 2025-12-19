@@ -150,9 +150,6 @@
 						}
 					}
 				},
-				"tags": [
-					"Metrics"
-				],
 				"security": [],
 				"parameters": [
 					{
@@ -203,7 +200,10 @@
 	},
 	"servers": [
 		{
-			"url": "https://[object Object]/"
+			"url": "https://http://localhost:2012/"
+		},
+		{
+			"url": "https://https://df-2-0-aima-metrics-service.onrender.com/"
 		}
 	],
 	"tags": [
