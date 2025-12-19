@@ -8,8 +8,8 @@
     "outputDirectory": "./src/swagger",
     "specVersion": 3,
     "servers": [
-      "http://localhost:2012",
-      "https://df-2-0-aima-metrics-service.onrender.com"
+      "localhost:2012",
+      "df-2-0-aima-metrics-service.onrender.com"
     ],
     "tags": [
       {
