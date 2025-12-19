@@ -200,10 +200,10 @@
 	},
 	"servers": [
 		{
-			"url": "https://http://localhost:2012/"
+			"url": "https://localhost:2012/"
 		},
 		{
-			"url": "https://https://df-2-0-aima-metrics-service.onrender.com/"
+			"url": "https://df-2-0-aima-metrics-service.onrender.com/"
 		}
 	],
 	"tags": [
