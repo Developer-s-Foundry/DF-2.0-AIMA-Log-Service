@@ -4,6 +4,8 @@
 import type { TsoaRoute } from '@tsoa/runtime';
 import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { BaseController } from './../controller/metric_controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { LogController } from './../controller/metric_controller';
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
@@ -67,6 +69,35 @@ export function RegisterRoutes(app: Router) {
 
 
     
+        const argsBaseController_getBase: Record<string, TsoaRoute.ParameterSchema> = {
+        };
+        app.get('/',
+            ...(fetchMiddlewares<RequestHandler>(BaseController)),
+            ...(fetchMiddlewares<RequestHandler>(BaseController.prototype.getBase)),
+
+            async function BaseController_getBase(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsBaseController_getBase, request, response });
+
+                const controller = new BaseController();
+
+              await templateService.apiHandler({
+                methodName: 'getBase',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsLogController_getMetrics: Record<string, TsoaRoute.ParameterSchema> = {
                 project_id: {"in":"path","name":"project_id","required":true,"dataType":"string"},
                 time_difference: {"in":"query","name":"time_difference","ref":"timeDifference"},

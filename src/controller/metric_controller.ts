@@ -5,6 +5,22 @@ import { Controller, Get, Query, Route, Path } from "tsoa";
 import { Metric } from '../models/entities/metric';
 
 
+
+@Route('/')
+export class BaseController extends Controller {
+    constructor() {
+        super();
+    }
+
+    @Get('/')
+    public getBase() {
+        return {
+            message: "backend service is available, go to url/docs for direction"
+        }
+    } 
+
+}
+
 @Route('metrics')
 export class LogController extends Controller {
     private MetricRepository:  MetricRepo;
